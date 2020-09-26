@@ -1,0 +1,12 @@
+{
+  "name": "myplugin",
+  "version": "0.0.2",
+  "description": "Extract text from images and send it to a word document",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Robin Dijkhof",
+  "license": "MIT",
+  "dependencies": {
+    "tesseract.js": "^2.1.3"
+  }
+}
