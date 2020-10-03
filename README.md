@@ -4,7 +4,7 @@ I used to copy and paste, as Hamid suggested until recently. I created a chrome 
 # Instructions
 
   - Install nodejs
-  - Inside the rootdir of this project run `npm install`
+  - Inside the rootdir of this project run `npm install` in your terminal/cmd/powershell
   - Load the extension as explained here: https://developer.chrome.com/extensions/getstarted
   - Activate the plugin by clickin the plugin en enabling the checkbox.
   - Click the textarea to initialize spellcheck.
