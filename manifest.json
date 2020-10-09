@@ -1,7 +1,7 @@
 {
-  "name": "Getting Started Example",
+  "name": "Overleaf textarea",
   "version": "1.0",
-  "description": "Build an Extension!",
+  "description": "This plugin displays your text in a textarea so you can use spellcheck plugins like Grammarly.",
   "background": {
     "scripts": ["background.js"],
     "persistent": false
@@ -21,21 +21,20 @@
     }
   ],
   "web_accessible_resources": ["script.js"],
-  "content_security_policy": "script-src 'self' https://*.google-analytics.com/ https://*.firebase.com https://*.firebaseio.com https://www.gstatic.com/ https://www.googleapis.com https://www.googletagmanager.com/; object-src 'self'",
   "page_action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "images/get_started16.png",
-      "32": "images/get_started32.png",
-      "48": "images/get_started48.png",
-      "128": "images/get_started128.png"
+      "16": "images/icon_16.png",
+      "32": "images/icon_32.png",
+      "48": "images/icon_48.png",
+      "128": "images/icon_128.png"
     }
   },
   "icons": {
-    "16": "images/get_started16.png",
-    "32": "images/get_started32.png",
-    "48": "images/get_started48.png",
-    "128": "images/get_started128.png"
+    "16": "images/icon_16.png",
+    "32": "images/icon_32.png",
+    "48": "images/icon_48.png",
+    "128": "images/icon_128.png"
   },
   "manifest_version": 2
 }

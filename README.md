@@ -4,9 +4,19 @@ Spellcheck in Overleaf is very basic. It is nothing compared to dedicated tools 
 
 ![](plugin.gif)
 
+# Donation
+If this project help you reduce time, you can give me a cup of coffee :)
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6B3GESXVWUPAJ)
+
+
 # Instructions
   - Load the extension as explained here: https://developer.chrome.com/extensions/getstarted
-  - Activate the plugin by clickin the plugin en enabling the checkbox.
+  - Activate the plugin by clicking the plugin en enabling the checkbox.
   - Click the textarea to initialize spellcheck.
   
 Note: the only known limitation is that the number of lines while editing CANNOT change. Inserting Enters in the textarea breaks merging back changes to the editor.
+
+# TODO
+  - Adding more filters.
+  - Allow custom filter.
