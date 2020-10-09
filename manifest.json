@@ -1,6 +1,6 @@
 {
   "name": "Overleaf textarea",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "This plugin displays your text in a textarea so you can use spellcheck plugins like Grammarly.",
   "background": {
     "scripts": ["background.js"],
