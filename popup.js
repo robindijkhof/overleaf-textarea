@@ -10,11 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     activeCheckbox.addEventListener('change', function(){
         if(this.checked){
             chrome.storage.sync.set({active: true}, function() {
-                console.log('set active true');
             });
         }else{
             chrome.storage.sync.set({active: false}, function() {
-                console.log('set active false');
             });
         }
     });

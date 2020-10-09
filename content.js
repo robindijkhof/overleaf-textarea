@@ -1,37 +1,88 @@
 'use strict';
 
-setInterval(() => {
-    chrome.storage.sync.get(['active'], function (result) {
-        let spellcheckContainer = document.getElementById('spellcheck');
-        if (result.active) {
-            var text = filter(getText());
+// Setup communication with script.js so we can access js objects of the page.
+const s = document.createElement('script');
+s.src = chrome.extension.getURL('script.js');
+document.head.appendChild(s);
+s.onload = function () {
+    s.remove();
+};
 
-            const pdfdoc = document.querySelector("div.full-size.pdf");
-            if (spellcheckContainer === null) {
-                pdfdoc.append(getSpellcheckElement());
-            }
+// the last textvalue emitted
+let lastText = undefined;
+// the last textvalue emitted that has been filtered
+let lastFilteredText = undefined;
 
-            const spellcheck = document.getElementById('spellcheck-text');
+// Diff_match_patch object
+let dmp = new diff_match_patch();
+
+// whether the plugin is active
+let active = false;
+
+// checks the first time whether the plugin is active
+chrome.storage.sync.get(['active'], function (result) {
+    active = result.active;
+    if (active) {
+        createSpellCheckElement();
+    }
+});
+
+// event listener for when the app becomes (in)active
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    if (changes['active']) {
+        active = changes['active'].newValue;
+        if (active) {
+            createSpellCheckElement();
+        } else {
+            removeSpellCheckElement();
+        }
+    }
+});
+
+// Receive events from script.js
+document.addEventListener('return_command', function (e) {
+
+    // Currently the only value we are expecting is the editor value
+    if (e.detail.method === 'getValue') {
+        let spellcheckContainer = getSpellCheckElement();
+        if (spellcheckContainer !== null) {
+            const text = e.detail.value;
+            const filteredText = text;
+            // const filteredText = filter(text); // TODO: filteren en filter fixen zodat het aantal lines niet veranderd
+
+            // Setting the last texts to we can access them later.
+            lastText = text;
+            lastFilteredText = filteredText;
+
+
+            // Update the textarea if present and text has changed.
+            const spellcheck = getSpellCheckTextElement()
             if (spellcheck !== null) {
                 const current = document.activeElement;
-                if (spellcheck.value !== text) {
+                if (spellcheck.value !== filteredText) {
                     const scrollTop = spellcheck.scrollTop;
-                    spellcheck.value = text;
+                    spellcheck.value = filteredText;
                     spellcheck.focus();
                     current.focus();
                     spellcheck.scrollTop = scrollTop;
                 }
             }
-        } else {
-            if (spellcheckContainer !== null) {
-                spellcheckContainer.parentElement.removeChild(spellcheckContainer);
-            }
         }
-    });
+    }
+
+});
+
+
+// get the textvalue every two seconds
+setInterval(() => {
+    document.dispatchEvent(new CustomEvent('call_command', {detail: {method: 'getValue', args: []}}));
 }, 2000);
 
 
-function getSpellcheckElement() {
+
+
+// returns a new DOM spellcheck element
+function makeNewSpellcheckElement() {
     const element = document.createElement('div');
     element.id = 'spellcheck';
     element.style.position = 'absolute';
@@ -50,46 +101,49 @@ function getSpellcheckElement() {
     textarea.id = 'spellcheck-text';
     textarea.style.width = '100%';
     textarea.style.height = '90%';
-    textarea.style.overflow = 'hidden';
+    // textarea.style.overflow = 'hidden';
     element.append(textarea);
+
+
+    textarea.addEventListener('input', (event) => {
+        const newText = textarea.value;
+        const temp = {a: lastFilteredText};
+        const obj = JSON.stringify(temp);
+        const oldText = JSON.parse(obj).a;
+
+        if (newText === oldText) {
+            return;
+        }
+        
+        const newLines = newText.split('\n');
+        const oldLines = oldText.split('\n');
+        if (newLines.length !== oldLines.length) {
+            console.log('lines niet gelijkt. Kon niet fixen');
+        } else {
+            console.log('aantal lines gelijk')
+            for (let i = 0; i < newLines.length; i++) {
+                const newLine = newLines[i];
+                const oldLine = oldLines[i];
+
+                if (newLine !== oldLine) {
+                    console.log('geveonden welke veranderd is. Het is nummer: ', i)
+                    console.log(oldLine)
+
+                    const patches = dmp.patch_make(oldLine, newLine);
+
+                    const fixed = dmp.patch_apply(patches, oldLine); // TODO: hier zou de oldline met commandos/argumenten moetne komen
+                    document.dispatchEvent(new CustomEvent('call_command',
+                        {detail: {method: 'replaceLine', args: {lineNumber: i, newValue: fixed}}}
+                    ));
+                }
+            }
+        }
+
+
+    });
 
 
     return element;
 }
 
-function getText() {
-    var text = '';
-    const textdocument = document.querySelector('div.ace_layer.ace_text-layer');
-    if (textdocument !== null) {
-        const paragraphs = textdocument.childNodes;
-        for (var i = 0; i < paragraphs.length; i++) {
-            const lines = paragraphs[i].childNodes;
-            for (var j = 0; j < lines.length; j++) {
-                text += lines[j].textContent;
-            }
-            text += '\n';
-        }
-    }
 
-    return text;
-}
-
-function filter(text) {
-    return text
-        .replaceAll(/w*(?<!\\)%.*\n?/g, '\n')
-        .replaceAll('\\%', '%')
-        .replaceAll('\\_', '_')
-        .replaceAll(/(\\section{)(.*?)(})/g, "$2")
-        .replaceAll(/(\\subsection{)(.*?)(})/g, "$2")
-        .replaceAll(/(\\title{)(.*?)(})/g, "$2")
-        .replaceAll(/(\\textit{)(.*?)(})/g, "$2")
-        .replaceAll(/(\\documentclass{)(.*?)(})/g, '')
-        .replaceAll(/(\\begin{)(.*?)(})/g, '')
-        .replaceAll(/(\\end{)(.*?)(})/g, '')
-        .replaceAll(/(\\keywords{)(.*?)(})/g, '')
-        .replaceAll(/(\\cite{)(.*?)(})/g, '')
-        .replaceAll(/(\\bibliographystyle{)(.*?)(})/g, '')
-        .replaceAll(/(\\bibliography{)(.*?)(})/g, '')
-        .replaceAll(/(\\numberofauthors{)(.*?)(})/g, '')
-        .replaceAll(/\\maketitle.*\n?/g, '')
-}

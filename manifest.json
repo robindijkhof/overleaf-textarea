@@ -9,15 +9,19 @@
   "permissions": [
     "activeTab",
     "storage",
-    "declarativeContent"
+    "declarativeContent",
+    "input"
   ],
   "content_scripts": [
     {
       "matches": ["*://*.overleaf.com/*"],
-      "js": ["content.js", "node_modules/tesseract.js/dist/tesseract.min.js"],
+      "js": [ "diff_match_patch.js","functions.js", "content.js", "script.js"],
+      "content_security_policy": "script-src 'self' https://www.overleaf.com/project/*; object-src 'self'",
       "run_at": "document_end"
     }
   ],
+  "web_accessible_resources": ["script.js"],
+  "content_security_policy": "script-src 'self' https://*.google-analytics.com/ https://*.firebase.com https://*.firebaseio.com https://www.gstatic.com/ https://www.googleapis.com https://www.googletagmanager.com/; object-src 'self'",
   "page_action": {
     "default_popup": "popup.html",
     "default_icon": {
