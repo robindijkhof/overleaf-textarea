@@ -27,24 +27,38 @@ function createSpellCheckElement() {
 // Filter the text. Commandos should be removed so Grammarly can understand the text.
 // The number of lines should not be affected. This will cause the plugin not to work.
 function filter(text) {
+    const regexes = [
+        {pattern: /w*(?<!\\)%.*\n?/g, newValue: '\n'},
+        {pattern: '\\%', newValue: '%'},
+        {pattern: '\\_', newValue: '_'},
+        {pattern: /(\\section{)(.*?)(})/g, newValue: '$2'},
+        {pattern: /(\\subsection{)(.*?)(})/g, newValue: '$2'},
+        {pattern: /(\\title{)(.*?)(})/g, newValue: '$2'},
+        {pattern: /(\\textit{)(.*?)(})/g, newValue: '$2'},
+        {pattern: /(\\date{)(.*?)(})/g, newValue: '$2'},
+        {pattern: /(\\author{)(.*?)(})/g, newValue: '$2'},
+        {pattern: /(\\usepackage{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\documentclass{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\begin{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\end{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\keywords{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\cite{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\citep{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\citeal\[]{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\citealp\[]{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\bibliographystyle{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\bibliography{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\numberofauthors{)(.*?)(})/g, newValue: ''}
+    ]
+
+    for (let i = 0; i < regexes.length; i++) {
+        const newText = text.replaceAll(regexes[i].pattern, regexes[i].newValue);
+        if (newText.split("\n").length === text.split("\n").length) {
+            text = newText
+        } else {
+            console.log('pattern incorrect. text length reduced. :' + regexes[i].pattern)
+        }
+    }
     return text
-    // .replaceAll(/w*(?<!\\)%.*\n?/g, '\n')
-    // .replaceAll('\\%', '%')
-    // .replaceAll('\\_', '_')
-    // .replaceAll(/(\\section{)(.*?)(})/g, "$2")
-    // .replaceAll(/(\\subsection{)(.*?)(})/g, "$2")
-    // .replaceAll(/(\\title{)(.*?)(})/g, "$2")
-    // .replaceAll(/(\\textit{)(.*?)(})/g, "$2")
-    // .replaceAll(/(\\documentclass{)(.*?)(})/g, '')
-    // .replaceAll(/(\\begin{)(.*?)(})/g, '')
-    // .replaceAll(/(\\end{)(.*?)(})/g, '')
-    // .replaceAll(/(\\keywords{)(.*?)(})/g, '')
-    // .replaceAll(/(\\cite{)(.*?)(})/g, '')
-    // .replaceAll(/(\\citep{)(.*?)(})/g, '')
-    // .replaceAll(/(\\citeal\[]{)(.*?)(})/g, '')
-    // .replaceAll(/(\\citealp\[]{)(.*?)(})/g, '')
-    // .replaceAll(/(\\bibliographystyle{)(.*?)(})/g, '')
-    // .replaceAll(/(\\bibliography{)(.*?)(})/g, '')
-    // .replaceAll(/(\\numberofauthors{)(.*?)(})/g, '')
-    // .replaceAll(/\\maketitle.*\n?/g, '')
+
 }

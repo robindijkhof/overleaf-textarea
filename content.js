@@ -47,8 +47,8 @@ document.addEventListener('return_command', function (e) {
         let spellcheckContainer = getSpellCheckElement();
         if (spellcheckContainer !== null) {
             const text = e.detail.value;
-            const filteredText = text;
-            // const filteredText = filter(text); // TODO: filteren en filter fixen zodat het aantal lines niet veranderd
+            // const filteredText = text;
+            const filteredText = filter(text); // TODO: filteren en filter fixen zodat het aantal lines niet veranderd
 
             // Setting the last texts to we can access them later.
             lastText = text;
@@ -106,44 +106,43 @@ function makeNewSpellcheckElement() {
 
 
     textarea.addEventListener('input', (event) => {
-        const newText = textarea.value;
-        const temp = {a: lastFilteredText};
-        const obj = JSON.stringify(temp);
-        const oldText = JSON.parse(obj).a;
-
-        if (newText === oldText) {
-            return;
-        }
-        
-        const newLines = newText.split('\n');
-        const oldLines = oldText.split('\n');
-        if (newLines.length !== oldLines.length) {
-            console.log('lines niet gelijkt. Kon niet fixen');
-        } else {
-            console.log('aantal lines gelijk')
-            for (let i = 0; i < newLines.length; i++) {
-                const newLine = newLines[i];
-                const oldLine = oldLines[i];
-
-                if (newLine !== oldLine) {
-                    console.log('geveonden welke veranderd is. Het is nummer: ', i)
-                    console.log(oldLine)
-
-                    const patches = dmp.patch_make(oldLine, newLine);
-
-                    const fixed = dmp.patch_apply(patches, oldLine); // TODO: hier zou de oldline met commandos/argumenten moetne komen
-                    document.dispatchEvent(new CustomEvent('call_command',
-                        {detail: {method: 'replaceLine', args: {lineNumber: i, newValue: fixed}}}
-                    ));
-                }
-            }
-        }
-
-
+        inputChangeEvent(event)
     });
 
 
     return element;
+}
+
+function inputChangeEvent(event){
+    const textarea = getSpellCheckTextElement();
+    const newText = textarea.value;
+    const temp = {a: lastFilteredText};
+    const obj = JSON.stringify(temp);
+    const oldText = JSON.parse(obj).a;
+
+    if (newText === oldText) {
+        return;
+    }
+
+    const newLines = newText.split('\n');
+    const oldLines = oldText.split('\n');
+    if (newLines.length !== oldLines.length) {
+        console.log('Nummer of lines is not equal. Cound not apply rhe fix');
+    } else {
+        for (let i = 0; i < newLines.length; i++) {
+            const newLine = newLines[i];
+            const oldLine = oldLines[i];
+
+            if (newLine !== oldLine) {
+                const patches = dmp.patch_make(oldLine, newLine);
+
+                const fixed = dmp.patch_apply(patches, lastText.split('\n')[i]); // TODO: hier zou de oldline met commandos/argumenten moetne komen
+                document.dispatchEvent(new CustomEvent('call_command',
+                    {detail: {method: 'replaceLine', args: {lineNumber: i, newValue: fixed}}}
+                ));
+            }
+        }
+    }
 }
 
 
