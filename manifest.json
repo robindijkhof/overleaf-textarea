@@ -7,10 +7,8 @@
     "persistent": false
   },
   "permissions": [
-    "activeTab",
     "storage",
-    "declarativeContent",
-    "input"
+    "declarativeContent"
   ],
   "content_scripts": [
     {
