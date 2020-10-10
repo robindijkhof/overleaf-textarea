@@ -14,7 +14,6 @@
     {
       "matches": ["*://*.overleaf.com/*"],
       "js": [ "diff_match_patch.js","functions.js", "content.js", "script.js"],
-      "content_security_policy": "script-src 'self' https://www.overleaf.com/project/*; object-src 'self'",
       "run_at": "document_end"
     }
   ],

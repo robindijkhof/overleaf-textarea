@@ -17,6 +17,9 @@ If this project saved you time, you can buy me a cup of coffee :)
   
 Note: the only known limitation is that the number of lines while editing CANNOT change. Inserting Enters in the textarea breaks merging back changes to the editor.
 
+# Privacy
+This plugin does not collect any data.
+
 # TODO
   - Adding more filters.
   - Allow custom filter.
