@@ -2,7 +2,7 @@
 
 // Setup communication with script.js so we can access js objects of the page.
 const s = document.createElement('script');
-s.src = chrome.extension.getURL('script.js');
+s.src = chrome.extension.getURL('src/script.js');
 document.head.appendChild(s);
 s.onload = function () {
     s.remove();
@@ -12,6 +12,8 @@ s.onload = function () {
 let lastText = undefined;
 // the last textvalue emitted that has been filtered
 let lastFilteredText = undefined;
+
+let userFilters = [];
 
 // Diff_match_patch object
 let dmp = new diff_match_patch();
@@ -23,7 +25,7 @@ let active = false;
 chrome.storage.sync.get(['active'], function (result) {
     active = result.active;
     if (active) {
-        createSpellCheckElement();
+        createPluginElement();
     }
 });
 
@@ -32,7 +34,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     if (changes['active']) {
         active = changes['active'].newValue;
         if (active) {
-            createSpellCheckElement();
+            createPluginElement();
         } else {
             removeSpellCheckElement();
         }
@@ -44,7 +46,7 @@ document.addEventListener('return_command', function (e) {
 
     // Currently the only value we are expecting is the editor value
     if (e.detail.method === 'getValue') {
-        let spellcheckContainer = getSpellCheckElement();
+        let spellcheckContainer = getPluginElement();
         if (spellcheckContainer !== null) {
             const text = e.detail.value;
             // const filteredText = text;
@@ -82,7 +84,7 @@ setInterval(() => {
 
 
 // returns a new DOM spellcheck element
-function makeNewSpellcheckElement() {
+function makeNewPluginElement() {
     const element = document.createElement('div');
     element.id = 'spellcheck';
     element.style.position = 'absolute';
@@ -90,19 +92,24 @@ function makeNewSpellcheckElement() {
     element.style.height = '100%';
     element.style.backgroundColor = 'Red';
 
-    // const overlay = document.createElement('div');
-    // overlay.id = 'overlay';
-    // overlay.style.position = 'absolute';
-    // overlay.style.width = '100%';
-    // overlay.style.height = '100%';
-    // element.append(overlay);
-
     const textarea = document.createElement('textarea');
     textarea.id = 'spellcheck-text';
     textarea.style.width = '100%';
-    textarea.style.height = '90%';
-    // textarea.style.overflow = 'hidden';
+    textarea.style.height = 'calc(100% - 100px)';
+    textarea.style.resize = 'none';
     element.append(textarea);
+
+    const console = document.createElement('div');
+    console.id = 'spellcheck-console';
+    console.style.width = '100%';
+    console.style.height = '50px';
+    console.style.backgroundColor = 'rgb(249,249,249)';
+    console.style.overflowY = 'Scroll';
+    console.style.fontFamily = 'Courier New';
+    console.style.fontSize = '12px';
+    element.append(console);
+
+
 
 
     textarea.addEventListener('input', (event) => {

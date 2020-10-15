@@ -1,10 +1,10 @@
 {
-  "name": "myplugin",
-  "version": "0.0.2",
-  "description": "Extract text from images and send it to a word document",
-  "main": "index.js",
+  "name": "overleaf-textarea",
+  "version": "1.0.0",
+  "description": "Extract text from overleaf and put it into a textarea",
+  "main": "src/background.js",
   "keywords": [],
   "author": "Robin Dijkhof",
-  "license": "MIT",
+  "license": "GLPv3",
   "dependencies": {}
 }

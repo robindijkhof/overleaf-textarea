@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This plugin displays your text in a textarea so you can use spellcheck plugins like Grammarly.",
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["src/background.js"],
     "persistent": false
   },
   "permissions": [
@@ -13,13 +13,13 @@
   "content_scripts": [
     {
       "matches": ["*://*.overleaf.com/*"],
-      "js": [ "diff_match_patch.js","functions.js", "content.js", "script.js"],
+      "js": [ "src/diff_match_patch.js","src/functions.js", "src/content.js", "src/script.js"],
       "run_at": "document_end"
     }
   ],
-  "web_accessible_resources": ["script.js"],
+  "web_accessible_resources": ["src/script.js"],
   "page_action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/popup.html",
     "default_icon": {
       "16": "images/icon_16.png",
       "32": "images/icon_32.png",

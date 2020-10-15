@@ -11,7 +11,7 @@ If this project saved you time, you can buy me a cup of coffee :)
 
 
 # Instructions
-  - Load the extension as explained here: https://developer.chrome.com/extensions/getstarted
+  - Install the plugin https://chrome.google.com/webstore/detail/overleaf-textarea/iejmieihafhhmjpoblelhbpdgchbckil
   - Activate the plugin by clicking the plugin en enabling the checkbox.
   - Click the textarea to initialize spellcheck.
   
