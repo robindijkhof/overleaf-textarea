@@ -75,7 +75,7 @@ function filter(text) {
         {pattern: /(\\pagenumbering{)(.*?)(})/g, newValue: ''},
         {pattern: /(\\pagestyle{)(.*?)(})/g, newValue: ''},
         {pattern: /(\\ref{)(.*?)(})/g, newValue: ''},
-        {pattern: /(\\autored{)(.*?)(})/g, newValue: ''},
+        {pattern: /(\\autoref{)(.*?)(})/g, newValue: ''},
         {pattern: /(\\section{)(.*?)(})/g, newValue: '$2'},
         {pattern: /(\\subsection{)(.*?)(})/g, newValue: '$2'},
         {pattern: /(\\textit{)(.*?)(})/g, newValue: '$2'},
