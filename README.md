@@ -25,6 +25,8 @@ You can add custom filter to filter latex command I forgot about or simply do no
 You have to enter a regex or string and a replace value. For regexes you need to escape characters like \ as you would do as usual.
 For string there is no need to escape.
 
+![](plugin.png)
+
 This work mostly like the JavaScript `replaceAll` function. 
 More on that here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll
 
