@@ -41,6 +41,13 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     }
 });
 
+// event listener for the user filters
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    if (changes['customRegex']) {
+        userFilters = changes['customRegex'].newValue;
+    }
+});
+
 // Receive events from script.js
 document.addEventListener('return_command', function (e) {
 
@@ -151,5 +158,7 @@ function inputChangeEvent(event){
         }
     }
 }
+
+
 
 

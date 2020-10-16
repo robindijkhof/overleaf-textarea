@@ -20,6 +20,27 @@ Note: the only known limitation is that the number of lines while editing CANNOT
 # Privacy
 This plugin does not collect any data.
 
+# Custom filters
+You can add custom filter to filter latex command I forgot about or simply do not support.
+You have to enter a regex or string and a replace value. For regexes you need to escape characters like \ as you would do as usual.
+For string there is no need to escape.
+
+This work mostly like the JavaScript `replaceAll` function. 
+More on that here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll
+
+
+Examples:
+
+| Regex or string           | replace value | Latex text               | Result text            |
+| ------------------------- | ------------- | -------------------------|----------------------- |
+| /(\\\\author{)(.*?)(})/g  |               | \\author{it is me}      |                        |
+| /(\\\\author{)(.*?)(})/g  | $2            | \\author{it is me}      | it is me               |
+| \\_                       | _             | This is an\\_underscore  | This is an_underscore  |
+| a                         | b             | Example                  | Exbmple                |
+
+
+
+
 # TODO
   - Adding more filters.
   - Allow custom filter.

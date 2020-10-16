@@ -6,7 +6,7 @@
     <script src="popup.js"></script>
 </head>
 <body>
-<div>
+<div style="max-width: 400px; max-height: 600px">
     <div style="display: inline">
         <input type="checkbox" id="active" name="active">
         <label for="active">Active</label>
@@ -19,6 +19,17 @@
                title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button"/>
         <img alt="" border="0" src="https://www.paypal.com/en_NL/i/scr/pixel.gif" width="1" height="1"/>
     </form>
+
+    Add
+    <div style="display: flex">
+        <input type="text" id="regex" placeholder="regex or string">
+        <input type="text" id="value" placeholder="replace with">
+        <button id="regex-button-add">+</button>
+    </div>
+    Existing
+    <div id="regex-container">
+        <!-- User regexes are added here -->
+    </div>
 </div>
 </body>
 </html>
