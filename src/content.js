@@ -150,7 +150,7 @@ function inputChangeEvent(event){
             if (newLine !== oldLine) {
                 const patches = dmp.patch_make(oldLine, newLine);
 
-                const fixed = dmp.patch_apply(patches, lastText.split('\n')[i]); // TODO: hier zou de oldline met commandos/argumenten moetne komen
+                const fixed = dmp.patch_apply(patches, lastText.split('\n')[i])[0];
                 document.dispatchEvent(new CustomEvent('call_command',
                     {detail: {method: 'replaceLine', args: {lineNumber: i, newValue: fixed}}}
                 ));

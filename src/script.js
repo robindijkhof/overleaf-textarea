@@ -6,7 +6,7 @@ document.addEventListener('call_command', function (e) {
         //Handle specific methods.
         if (e.detail.method === 'replaceLine') {
             var row = e.detail.args.lineNumber;
-            var newText = e.detail.args.newValue[0];
+            var newText = e.detail.args.newValue;
 
             _ide.editorManager.$scope.editor.sharejs_doc.ace.session.replace(new ace.Range(row, 0, row, Number.MAX_VALUE), newText)
         }

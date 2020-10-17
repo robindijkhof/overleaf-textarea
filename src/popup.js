@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Adds the regex whenever the user clciks the button
-    let addRegexButton = document.getElementById('regex-button-add');
+    const addRegexButton = document.getElementById('regex-button-add');
     addRegexButton.addEventListener("click", () => {
         const regexString = document.getElementById('regex').value;
         const replace = document.getElementById('value').value;
@@ -41,6 +41,14 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('regex').value = '';
         document.getElementById('value').value = '';
     });
+
+    // Open filter help link when clicked
+    const helpFilterLink = document.getElementById('help-filter-link');
+    helpFilterLink.addEventListener("click", () => {
+        chrome.tabs.create({url: helpFilterLink.getAttribute('href')});
+    });
+
+
 
 });
 

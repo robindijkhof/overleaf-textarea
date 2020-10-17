@@ -58,9 +58,13 @@ function filter(text) {
             {pattern: /(\\bibliographystyle{)(.*?)(})/g, newValue: ''},
             {pattern: /(\\caption{)(.*?)(})/g, newValue: ''},
             {pattern: '\\centering', newValue: ''},
+            {pattern: /( \\cite{)(.*?)(} )/g, newValue: ' '},
             {pattern: /(\\cite{)(.*?)(})/g, newValue: ''},
+            {pattern: /( \\citep{)(.*?)(} )/g, newValue: ' '},
             {pattern: /(\\citep{)(.*?)(})/g, newValue: ''},
+            {pattern: /( \\citeal\[]{)(.*?)(} )/g, newValue: ' '},
             {pattern: /(\\citeal\[]{)(.*?)(})/g, newValue: ''},
+            {pattern: /( \\citealp\[]{)(.*?)(} )/g, newValue: ' '},
             {pattern: /(\\citealp\[]{)(.*?)(})/g, newValue: ''},
             {pattern: /(\\citestyle{)(.*?)(})/g, newValue: ''},
             {pattern: /(\\date{)(.*?)(})/g, newValue: '$2'},
@@ -110,3 +114,4 @@ function getRegFromString(string) {
         return string;
     }
 }
+

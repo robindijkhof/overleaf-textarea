@@ -21,28 +21,23 @@ Note: the only known limitation is that the number of lines while editing CANNOT
 This plugin does not collect any data.
 
 # Custom filters
-You can add custom filter to filter latex command I forgot about or simply do not support.
-You have to enter a regex or string and a replace value. For regexes you need to escape characters like \ as you would do as usual.
-For string there is no need to escape.
+You can add custom filters to filter latex command I forgot about or simply do not support.
 
 ![](plugin.png)
 
-This work mostly like the JavaScript `replaceAll` function. 
+You have to enter a regex or string and a replace value. For those of you who do not understand what regex and string means, head to the examples below. Those should get your started.
+
+For the more technical users, regexes you need to escape characters like \ as you would do as usual.
+For string there is no need to escape. This filters works mostly like the JavaScript `replaceAll` function. 
 More on that here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll
 
-
-Examples:
+## Examples to get started
 
 | Regex or string           | replace value | Latex text               | Result text            |
 | ------------------------- | ------------- | -------------------------|----------------------- |
-| /(\\\\author{)(.*?)(})/g  |               | \\author{it is me}      |                        |
-| /(\\\\author{)(.*?)(})/g  | $2            | \\author{it is me}      | it is me               |
+| /(\\\\author{)(.*?)(})/g  |               | \\author{it is me}       |                        |
+| /(\\\\author{)(.*?)(})/g  | $2            | \\author{it is me}       | it is me               |
 | \\_                       | _             | This is an\\_underscore  | This is an_underscore  |
 | a                         | b             | Example                  | Exbmple                |
 
 
-
-
-# TODO
-  - Adding more filters.
-  - Allow custom filter.
