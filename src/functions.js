@@ -46,7 +46,6 @@ function filter(text) {
         [
             {pattern: /w*(?<!\\)%.*\n?/g, newValue: '\n'},
             {pattern: '\\\\', newValue: ''},
-            {pattern: '\\\\*', newValue: ''},
             {pattern: '\\%', newValue: '%'},
             {pattern: '\\$', newValue: '$'},
             {pattern: '\\&', newValue: '&'},
@@ -59,12 +58,16 @@ function filter(text) {
             {pattern: /(\\caption{)(.*?)(})/g, newValue: ''},
             {pattern: '\\centering', newValue: ''},
             {pattern: /( \\cite{)(.*?)(} )/g, newValue: ' '},
+            {pattern: /( \\cite{)(.*?)(}.)/g, newValue: '.'},
             {pattern: /(\\cite{)(.*?)(})/g, newValue: ''},
             {pattern: /( \\citep{)(.*?)(} )/g, newValue: ' '},
+            {pattern: /( \\citep{)(.*?)(}.)/g, newValue: '.'},
             {pattern: /(\\citep{)(.*?)(})/g, newValue: ''},
             {pattern: /( \\citeal\[]{)(.*?)(} )/g, newValue: ' '},
+            {pattern: /( \\citeal\[]{)(.*?)(}.)/g, newValue: '.'},
             {pattern: /(\\citeal\[]{)(.*?)(})/g, newValue: ''},
             {pattern: /( \\citealp\[]{)(.*?)(} )/g, newValue: ' '},
+            {pattern: /( \\citealp\[]{)(.*?)(}.)/g, newValue: '.'},
             {pattern: /(\\citealp\[]{)(.*?)(})/g, newValue: ''},
             {pattern: /(\\citestyle{)(.*?)(})/g, newValue: ''},
             {pattern: /(\\date{)(.*?)(})/g, newValue: '$2'},
@@ -91,7 +94,7 @@ function filter(text) {
 
     for (let i = 0; i < regexes.length; i++) {
         const regex = getRegFromString(regexes[i].pattern);
-        const newText = text.replaceAll(regex, regexes[i].newValue);
+        const newText = text.replace(regex, regexes[i].newValue);
         if (newText.split("\n").length === text.split("\n").length) {
             text = newText
         } else {
@@ -114,4 +117,14 @@ function getRegFromString(string) {
         return string;
     }
 }
+
+// For testing purposes
+try{
+    module.exports = {
+        filter: filter,
+    };
+}catch (e) {
+
+}
+
 

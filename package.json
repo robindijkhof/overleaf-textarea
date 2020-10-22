@@ -3,8 +3,18 @@
   "version": "1.0.0",
   "description": "Extract text from overleaf and put it into a textarea",
   "main": "src/background.js",
-  "keywords": [],
+  "keywords": [
+    "overleaf",
+    "grammarly",
+    "spellcheck"
+  ],
+  "scripts": {
+    "test": "jest"
+  },
   "author": "Robin Dijkhof",
   "license": "GLPv3",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^26.6.0"
+  }
 }
