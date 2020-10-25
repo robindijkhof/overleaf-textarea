@@ -1,14 +1,18 @@
 console.log('script.js')
 document.addEventListener('call_command', function (e) {
+  const message = JSON.parse(e.detail);
 
+  setTimeout(() => {
+    console.log('got event' + new Date().getTime());
+  },0);
   console.log('got event');
     let result;
 
     try {
         //Handle specific methods.
-        if (e.detail.method === 'replaceLine') {
-            var row = e.detail.args.lineNumber;
-            var newText = e.detail.args.newValue;
+        if (message.method === 'replaceLine') {
+            var row = message.args.lineNumber;
+            var newText = message.args.newValue;
 
             _ide.editorManager.$scope.editor.sharejs_doc.ace.session.replace(new ace.Range(row, 0, row, Number.MAX_VALUE), newText)
         }
@@ -17,11 +21,11 @@ document.addEventListener('call_command', function (e) {
             result =
                 {
                     detail:
-                        {
-                            method: e.detail.method,
-                            value: _ide.editorManager.$scope.editor.sharejs_doc.ace.session[e.detail.method]
-                                .apply(_ide.editorManager.$scope.editor.sharejs_doc.ace.session, [e.detail.args])
-                        }
+                        JSON.stringify({
+                            method: message.method,
+                            value: _ide.editorManager.$scope.editor.sharejs_doc.ace.session[message.method]
+                                .apply(_ide.editorManager.$scope.editor.sharejs_doc.ace.session, [message.args])
+                        })
                 }
         }
     } catch (e) {

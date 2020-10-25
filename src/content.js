@@ -51,13 +51,15 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 // Receive events from script.js
 document.addEventListener('return_command', function (e) {
 
+  const message = JSON.parse(e.detail);
+
     // Currently the only value we are expecting is the editor value
-    if (e.detail.method === 'getValue') {
+    if (message.method === 'getValue') {
         let spellcheckContainer = getPluginElement();
         if (spellcheckContainer !== null) {
-            const text = e.detail.value;
+            const text = message.value;
             // const filteredText = text;
-            const filteredText = filter(text); // TODO: filteren en filter fixen zodat het aantal lines niet veranderd
+            const filteredText = filter(text);
 
             // Setting the last texts to we can access them later.
             lastText = text;
@@ -84,7 +86,9 @@ document.addEventListener('return_command', function (e) {
 
 // get the textvalue every two seconds
 setInterval(() => {
-    document.dispatchEvent(new CustomEvent('call_command', {detail: {method: 'getValue', args: []}}));
+  const message = JSON.stringify({method: 'getValue', args: []});
+
+    document.dispatchEvent(new CustomEvent('call_command', {detail: message}));
 }, 2000);
 
 
@@ -151,8 +155,9 @@ function inputChangeEvent(event){
                 const patches = dmp.patch_make(oldLine, newLine);
 
                 const fixed = dmp.patch_apply(patches, lastText.split('\n')[i])[0];
+                const message = JSON.stringify({method: 'replaceLine', args: {lineNumber: i, newValue: fixed}});
                 document.dispatchEvent(new CustomEvent('call_command',
-                    {detail: {method: 'replaceLine', args: {lineNumber: i, newValue: fixed}}}
+                    {detail: message}
                 ));
             }
         }
