@@ -1,5 +1,7 @@
+console.log('script.js')
 document.addEventListener('call_command', function (e) {
 
+  console.log('got event');
     let result;
 
     try {

@@ -6,9 +6,15 @@
     "scripts": ["src/background.js"],
     "persistent": false
   },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "addon@example.com",
+      "strict_min_version": "42.0"
+    }
+  },
   "permissions": [
     "storage",
-    "declarativeContent"
+    "tabs"
   ],
   "content_scripts": [
     {
@@ -17,6 +23,7 @@
       "run_at": "document_end"
     }
   ],
+  "content_security_policy": "script-src 'self' https://paypal.com https://paypalobjects.com; object-src 'self'",
   "web_accessible_resources": ["src/script.js"],
   "page_action": {
     "default_popup": "src/popup.html",

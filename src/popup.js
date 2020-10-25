@@ -48,6 +48,14 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.tabs.create({url: helpFilterLink.getAttribute('href')});
     });
 
+    const donateLink = document.getElementById('donate-link');
+    donateLink.addEventListener("click", () => {
+        chrome.tabs.create({url: 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6B3GESXVWUPAJ'});
+    });
+
+
+
+
 
 
 });
@@ -84,7 +92,6 @@ function addRegexToPopup(regexString, replaceString, index){
     row.append(inputRegex);
     row.append(inputReplace);
     row.append(buttonDelete);
-
 }
 
 // Delete a specific element. Save the new list and rebuild the popup regexes.
