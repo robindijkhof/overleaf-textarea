@@ -1,7 +1,6 @@
 document.addEventListener('call_command', function (e) {
   const message = JSON.parse(e.detail);
 
-  setTimeout(() => {
     let result;
 
     try {
