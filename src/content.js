@@ -145,7 +145,7 @@ function inputChangeEvent(event){
     const newLines = newText.split('\n');
     const oldLines = oldText.split('\n');
     if (newLines.length !== oldLines.length) {
-        console.log('Nummer of lines is not equal. Cound not apply rhe fix');
+        log('Nummer of lines is not equal. Cound not apply the fix');
     } else {
         for (let i = 0; i < newLines.length; i++) {
             const newLine = newLines[i];

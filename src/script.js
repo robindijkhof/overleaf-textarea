@@ -1,11 +1,7 @@
-console.log('script.js')
 document.addEventListener('call_command', function (e) {
   const message = JSON.parse(e.detail);
 
   setTimeout(() => {
-    console.log('got event' + new Date().getTime());
-  },0);
-  console.log('got event');
     let result;
 
     try {
