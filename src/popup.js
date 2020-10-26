@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let activeCheckbox = document.getElementById('active');
 
     chrome.storage.sync.get(['active'], function(result) {
-        activeCheckbox.checked = result.active;
+        activeCheckbox.checked = result.active || false;
     });
 
     chrome.storage.sync.get(['customRegex'], function(result) {

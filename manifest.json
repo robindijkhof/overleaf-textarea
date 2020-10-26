@@ -14,6 +14,7 @@
   },
   "permissions": [
     "storage",
+    "declarativeContent",
     "tabs"
   ],
   "content_scripts": [
