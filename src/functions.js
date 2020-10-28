@@ -33,10 +33,24 @@ function log(message) {
   const consoleElement = getConsoleElement();
   if (consoleElement !== null) {
     const logLine = document.createElement('span');
-    logLine.innerHTML = new Date().toISOString() + '   ' + message + '<br>';
+    logLine.innerHTML = new Date().toISOString() + '   ' + sanitize(message) + '<br>';
     logLine.style.overflowY = 'scroll';
     consoleElement.insertBefore(logLine, consoleElement.childNodes[0]);
   }
+}
+
+function sanitize(string) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    "/": '&#x2F;',
+    "`": '&grave;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match)=>(map[match]));
 }
 
 // Filter the text. Commandos should be removed so Grammarly can understand the text.
