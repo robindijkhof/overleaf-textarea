@@ -13,13 +13,13 @@ chrome.runtime.onInstalled.addListener(function () {
       }]);
     });
   } catch (e) {
-    chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-      if (changeInfo.status === 'complete' && tab.url.match("www.overleaf.com")) {
-        chrome.pageAction.show(tabId);
-      }else{
-        chrome.pageAction.hide(tabId);
-      }
-    });
+    // chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    //   if (changeInfo.status === 'complete' && tab.url.match("www.overleaf.com")) {
+    //     chrome.pageAction.show(tabId);
+    //   }else{
+    //     chrome.pageAction.hide(tabId);
+    //   }
+    // });
   }
 
 
