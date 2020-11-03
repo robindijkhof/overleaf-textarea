@@ -21,6 +21,10 @@ let dmp = new diff_match_patch();
 // whether the plugin is active
 let active = false;
 
+//Fallback method for merging changes back to the editor
+let justDidFallback = false;
+const isFireFox = typeof InstallTrigger !== 'undefined';
+
 // checks the first time whether the plugin is active
 chrome.storage.sync.get(['active'], function (result) {
   active = result.active || false;
@@ -60,27 +64,42 @@ document.addEventListener('return_command', function (e) {
 
   // Currently the only value we are expecting is the editor value
   if (message.method === 'getValue') {
-    let spellcheckContainer = getPluginElement();
-    if (spellcheckContainer !== null) {
-      const text = message.value;
 
-      const filteredText = filter(text);
+    // This is used as a fallbackmethod for FireFox. The input event is not triggerd by Grammarly.
+    if (
+      isFireFox &&
+      lastFilteredText !== undefined &&
+      !justDidFallback &&
+      JSON.stringify({a: lastFilteredText}) !== JSON.stringify({a: getSpellCheckTextElement().value})
+    ) {
+      inputChangeEvent()
+      justDidFallback = true;
+    } else {
+      justDidFallback = false;
 
-      // Setting the last texts to we can access them later.
-      lastText = text;
-      lastFilteredText = filteredText;
+
+      let spellcheckContainer = getPluginElement();
+      if (spellcheckContainer !== null) {
+        const text = message.value;
+
+        const filteredText = filter(text);
+
+        // Setting the last texts to we can access them later.
+        lastText = text;
+        lastFilteredText = filteredText;
 
 
-      // Update the textarea if present and text has changed.
-      const spellcheck = getSpellCheckTextElement()
-      if (spellcheck !== null) {
-        const current = document.activeElement;
-        if (spellcheck.value !== filteredText) {
-          const scrollTop = spellcheck.scrollTop;
-          spellcheck.value = filteredText;
-          spellcheck.focus();
-          current.focus();
-          spellcheck.scrollTop = scrollTop;
+        // Update the textarea if present and text has changed.
+        const spellcheck = getSpellCheckTextElement()
+        if (spellcheck !== null) {
+          const current = document.activeElement;
+          if (spellcheck.value !== filteredText) {
+            const scrollTop = spellcheck.scrollTop;
+            spellcheck.value = filteredText;
+            spellcheck.focus();
+            current.focus();
+            spellcheck.scrollTop = scrollTop;
+          }
         }
       }
     }
@@ -113,26 +132,26 @@ function makeNewPluginElement() {
   textarea.style.resize = 'none';
   element.append(textarea);
 
-  const console = document.createElement('div');
-  console.id = 'spellcheck-console';
-  console.style.width = '100%';
-  console.style.height = '50px';
-  console.style.backgroundColor = 'rgb(249,249,249)';
-  console.style.overflowY = 'Scroll';
-  console.style.fontFamily = 'Courier New';
-  console.style.fontSize = '12px';
-  element.append(console);
+  const userConsole = document.createElement('div');
+  userConsole.id = 'spellcheck-console';
+  userConsole.style.width = '100%';
+  userConsole.style.height = '50px';
+  userConsole.style.backgroundColor = 'rgb(249,249,249)';
+  userConsole.style.overflowY = 'Scroll';
+  userConsole.style.fontFamily = 'Courier New';
+  userConsole.style.fontSize = '12px';
+  element.append(userConsole);
 
 
   textarea.addEventListener('input', (event) => {
-    inputChangeEvent(event)
+    inputChangeEvent();
   });
 
 
   return element;
 }
 
-function inputChangeEvent(event) {
+function inputChangeEvent() {
   const textarea = getSpellCheckTextElement();
   const newText = textarea.value;
   const temp = {a: lastFilteredText};

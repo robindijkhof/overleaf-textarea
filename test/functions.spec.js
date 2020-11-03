@@ -3,11 +3,6 @@ const functions = require('../src/functions');
 const fs = require('fs');
 const path = require("path");
 
-// NodeJS does not support replaceAll
-String.prototype.replaceAll = function(target, replacement) {
-  return this.split(target).join(replacement);
-};
-
 
 describe('filter', function () {
 
