@@ -7,7 +7,7 @@ Spellcheck in Overleaf is very basic. It is nothing compared to dedicated tools 
 # Donation
 If this project saved you time, you can buy me a cup of coffee :)
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6B3GESXVWUPAJ)
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=6B3GESXVWUPAJ)
 
 
 # Instructions
