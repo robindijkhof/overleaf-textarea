@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const donateLink = document.getElementById('donate-link');
     donateLink.addEventListener("click", () => {
-        chrome.tabs.create({url: 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6B3GESXVWUPAJ'});
+        chrome.tabs.create({url: 'https://www.paypal.com/donate/?hosted_button_id=6B3GESXVWUPAJ'});
     });
 
 
