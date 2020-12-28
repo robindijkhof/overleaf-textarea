@@ -19,7 +19,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.overleaf.com/*"],
-      "js": [ "src/diff_match_patch.js","src/functions.js", "src/content.js", "src/script.js"],
+      "js": [ "src/diff_match_patch.js","src/functions.js", "src/content.js"],
       "run_at": "document_end"
     }
   ],
