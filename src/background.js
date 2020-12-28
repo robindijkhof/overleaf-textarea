@@ -1,12 +1,15 @@
 'use strict';
 
+
+
 chrome.runtime.onInstalled.addListener(function () {
 
   try{
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
       chrome.declarativeContent.onPageChanged.addRules([{
         conditions: [new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: {hostEquals: 'www.overleaf.com'},
+          // pageUrl: {urlMatches: '*://*.overleaf.com/project/*'},
+          pageUrl: {urlMatches: '(?:http(?:s)?):(?:\/\/)?(?:www\.)?(?:.*?)overleaf\.com\/project\/.*$'},
         })
         ],
         actions: [new chrome.declarativeContent.ShowPageAction()]
