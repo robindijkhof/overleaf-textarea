@@ -1,7 +1,5 @@
 'use strict';
 
-console.log('content');
-
 // Setup communication with script.js so we can access js objects of the page.
 const s = document.createElement('script');
 s.src = chrome.extension.getURL('src/script.js');
