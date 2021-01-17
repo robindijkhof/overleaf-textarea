@@ -1,5 +1,7 @@
 'use strict';
 
+console.log('content');
+
 // Setup communication with script.js so we can access js objects of the page.
 const s = document.createElement('script');
 s.src = chrome.extension.getURL('src/script.js');
@@ -27,7 +29,7 @@ const isFireFox = typeof InstallTrigger !== 'undefined';
 
 // checks the first time whether the plugin is active
 chrome.storage.sync.get(['active'], function (result) {
-  active = result.active || false;
+  active = result.active || true;
   if (active) {
     createPluginElement();
   }

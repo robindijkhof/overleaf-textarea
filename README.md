@@ -12,7 +12,9 @@ If this project saved you time, you can buy me a cup of coffee :)
 
 # Instructions
   - Install the plugin https://chrome.google.com/webstore/detail/overleaf-textarea/iejmieihafhhmjpoblelhbpdgchbckil or https://addons.mozilla.org/addon/overleaf-textarea/
-  - Activate the plugin by clicking the plugin en enabling the checkbox.
+  - Optionally, pin the plugin ![](instruction1.png) <br/><br/>
+  - Optionally, when hosted on a other domain than overleaf.com, allow the plugin to run ![](instruction2.png) <br/><br/>
+  - Activate/deactivate the plugin by clicking the plugin en enabling the checkbox. ![](instruction3.png) <br/><br/>
   - Click the textarea to initialize spellcheck.
   
 Note: the only known limitation is that the number of lines while editing CANNOT change. Inserting Enters in the textarea breaks merging back changes to the editor.
