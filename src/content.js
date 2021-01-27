@@ -27,7 +27,7 @@ const isFireFox = typeof InstallTrigger !== 'undefined';
 
 // checks the first time whether the plugin is active
 chrome.storage.sync.get(['active'], function (result) {
-  active = result.active || true;
+  active = result.active === undefined ? true : result.active;
   if (active) {
     createPluginElement();
   }
