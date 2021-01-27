@@ -16,6 +16,8 @@
     }
   },
   "permissions": [
+    "https://overleaf.com/",
+    "https://www.overleaf.com/",
     "*://*.overleaf.com/*",
     "storage",
     "contextMenus",
