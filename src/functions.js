@@ -25,6 +25,7 @@ function createPluginElement() {
   }
 }
 
+
 function getConsoleElement() {
   return document.getElementById('spellcheck-console');
 }
@@ -50,7 +51,7 @@ function sanitize(string) {
     "`": '&grave;',
   };
   const reg = /[&<>"'/]/ig;
-  return string.replace(reg, (match)=>(map[match]));
+  return string.replace(reg, (match) => (map[match]));
 }
 
 // Filter the text. Commandos should be removed so Grammarly can understand the text.
@@ -147,9 +148,9 @@ try {
 
 }
 
-if(!String.prototype.replaceAll){
+if (!String.prototype.replaceAll) {
   // NodeJS does not support replaceAll
-  String.prototype.replaceAll = function(target, replacement) {
+  String.prototype.replaceAll = function (target, replacement) {
     return this.split(target).join(replacement);
   };
 }

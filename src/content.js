@@ -25,6 +25,10 @@ let active = false;
 let justDidFallback = false;
 const isFireFox = typeof InstallTrigger !== 'undefined';
 
+// Determines whether it is the first time and should focuss on the textarea
+let firstTimeFocus = true;
+
+
 // checks the first time whether the plugin is active
 chrome.storage.sync.get(['active'], function (result) {
   active = result.active === undefined ? true : result.active;
@@ -96,8 +100,12 @@ document.addEventListener('return_command', function (e) {
           if (spellcheck.value !== filteredText) {
             const scrollTop = spellcheck.scrollTop;
             spellcheck.value = filteredText;
-            spellcheck.focus();
-            current.focus();
+
+            if(firstTimeFocus){
+              spellcheck.focus();
+              current.focus();
+              firstTimeFocus = false;
+            }
             spellcheck.scrollTop = scrollTop;
           }
         }
