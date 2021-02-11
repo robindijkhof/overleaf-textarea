@@ -105,6 +105,14 @@ function filter(text) {
       {pattern: /(\\title{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\usepackage\[(.*?)]{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\usepackage{)(.*?)(})/g, newValue: ''},
+      {pattern: /(\\emph{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\acs{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\ac{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\acf{)(.*?)(})/g, newValue: '$2'},         
+      {pattern: /(\\paragraph{)(.*?)(})/g, newValue: '$2'},      
+      {pattern: /(\\subsubsection{)(.*?)(})/g, newValue: '$2'},      
+      {pattern: /(\$)(.*?)(\$)/g, newValue: '$2'},  // remove inline math tags          
+      {pattern: /(\\text{)(.*?)(})/g, newValue: '$2'},      
     ]);
 
   for (let i = 0; i < regexes.length; i++) {
