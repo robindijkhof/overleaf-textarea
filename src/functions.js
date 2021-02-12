@@ -21,7 +21,6 @@ function createPluginElement() {
   const pdfdoc = document.querySelector("div.full-size.pdf");
   if (getPluginElement() === null) {
     pdfdoc.append(makeNewPluginElement());
-    log('Hi there');
   }
 }
 
@@ -33,6 +32,7 @@ function getConsoleElement() {
 function log(message) {
   const consoleElement = getConsoleElement();
   if (consoleElement !== null) {
+    consoleElement.style.display = '';
     const logLine = document.createElement('span');
     logLine.innerHTML = new Date().toISOString() + '   ' + sanitize(message) + '<br>';
     logLine.style.overflowY = 'scroll';
@@ -121,6 +121,7 @@ function filter(text) {
     } else {
       log('Pattern incorrect. Text length reduced by :' + regex + ', ' + regexes[i].newValue)
     }
+
   }
   return text;
 

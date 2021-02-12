@@ -131,23 +131,28 @@ function makeNewPluginElement() {
   element.style.position = 'absolute';
   element.style.width = '100%';
   element.style.height = '100%';
+  element.style.display = 'flex';
+  element.style['flex-flow'] = 'column';
   element.style.backgroundColor = 'Red';
 
   const textarea = document.createElement('textarea');
   textarea.id = 'spellcheck-text';
   textarea.style.width = '100%';
-  textarea.style.height = 'calc(100% - 100px)';
+  textarea.style.height = '100%';
   textarea.style.resize = 'none';
   element.append(textarea);
 
   const userConsole = document.createElement('div');
   userConsole.id = 'spellcheck-console';
+  userConsole.style['margin-top'] = '6px';
+  userConsole.style['margin-bottom'] = '50px';
   userConsole.style.width = '100%';
-  userConsole.style.height = '50px';
+  userConsole.style.height = '100px';
   userConsole.style.backgroundColor = 'rgb(249,249,249)';
   userConsole.style.overflowY = 'Scroll';
   userConsole.style.fontFamily = 'Courier New';
   userConsole.style.fontSize = '12px';
+  userConsole.style.display = 'none';
   element.append(userConsole);
 
 
