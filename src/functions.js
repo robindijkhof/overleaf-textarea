@@ -105,7 +105,7 @@ function filter(text) {
       {pattern: /(\\title{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\usepackage\[(.*?)]{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\usepackage{)(.*?)(})/g, newValue: ''},
-      {pattern: /%[^\n]*/g, newValue: ''},
+      {pattern: /(?<!\\)%.*/g, newValue: ''},
     ]);
 
   for (let i = 0; i < regexes.length; i++) {
