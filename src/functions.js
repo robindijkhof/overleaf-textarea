@@ -59,7 +59,7 @@ function sanitize(string) {
 function filter(text) {
   const regexes = userFilters.concat(
     [
-      {pattern: /w*(?<!\\)%.*\n?/g, newValue: '\n'},
+      {pattern: /w*(?<!\\)%.*(\n?)/g, newValue: '$1'},
       {pattern: '\\\\', newValue: ''},
       {pattern: '\\%', newValue: '%'},
       {pattern: '\\$', newValue: '$'},
