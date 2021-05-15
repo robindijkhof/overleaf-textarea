@@ -105,6 +105,12 @@ function filter(text) {
       {pattern: /(\\title{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\usepackage\[(.*?)]{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\usepackage{)(.*?)(})/g, newValue: ''},
+      {pattern: /(\\gls{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\acrshort{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\acrfull{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\todo{)(.*?)(})/g, newValue: ''},
+      {pattern: /(\\paragraph{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\mbox{)(.*?)(})/g, newValue: ''},
     ]);
 
   for (let i = 0; i < regexes.length; i++) {
