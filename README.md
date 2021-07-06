@@ -42,4 +42,7 @@ More on that here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 | \\_                       | _             | This is an\\_underscore  | This is an_underscore  |
 | a                         | b             | Example                  | Exbmple                |
 
-
+# Known issues
+  - Don't use the rich text mode. Only use the source editor.
+  - Sometimes Grammarly is a bit buggy and places the wrong errors in wrong positions. A page refresh usually solves this.
+  - Some other plugins are conflicting. Try disabling them when you experience problems.
