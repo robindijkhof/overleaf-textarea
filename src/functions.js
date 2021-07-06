@@ -101,10 +101,17 @@ function filter(text) {
       {pattern: /(\\autoref{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\section{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\subsection{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\subsubsection{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\textit{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\title{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\usepackage\[(.*?)]{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\usepackage{)(.*?)(})/g, newValue: ''},
+      {pattern: /(\\gls{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\acrshort{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\acrfull{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\paragraph{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\acf{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\$)(.*?)(\$)/g, newValue: '$2'}
     ]);
 
   for (let i = 0; i < regexes.length; i++) {
