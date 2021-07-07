@@ -33,6 +33,12 @@ For the more technical users, regexes you need to escape characters like \ as yo
 For string there is no need to escape. This filters works mostly like the JavaScript `replaceAll` function. 
 More on that here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replaceAll
 
+## Overriding default filters
+Default filters can be overriden by user filters. This can be achieved by simply providing it as a custom filter.
+An example would be the default filter `\_` which is replaced by `_`. This can be override with the following filter: `\_` with value `__`.
+
+Default filters can also be disabled. This can be achieved by providing the value: `%%EMPTY%%`.
+
 ## Examples to get started
 
 | Regex or string           | replace value | Latex text               | Result text            |
