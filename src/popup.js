@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         customRegex.push({pattern: regexString, newValue: replace});
         chrome.storage.sync.set({customRegex: customRegex}, function() { });
-        addRegexToPopup(regexString, replace, customRegex, length - 1);
+        addRegexToPopup(regexString, replace, customRegex.length - 1);
 
         document.getElementById('regex').value = '';
         document.getElementById('value').value = '';
@@ -72,13 +72,13 @@ function addRegexToPopup(regexString, replaceString, index){
 
     const inputRegex = document.createElement('input');
     inputRegex.type = 'text';
-    inputRegex.id = 'regex-' + customRegex.length;
+    inputRegex.id = 'regex-' + index;
     inputRegex.disabled = true;
     inputRegex.value = regexString;
 
     const inputReplace = document.createElement('input');
     inputReplace.type = 'text';
-    inputReplace.id = 'value-' + customRegex.length;
+    inputReplace.id = 'value-' + index;
     inputReplace.disabled = true;
     inputReplace.value = replaceString;
 
@@ -96,6 +96,7 @@ function addRegexToPopup(regexString, replaceString, index){
 
 // Delete a specific element. Save the new list and rebuild the popup regexes.
 function deleteRegex(index) {
+    console.log('index: ', index);
     customRegex.splice(index, 1);
     chrome.storage.sync.set({customRegex: customRegex}, function() { });
     const container = document.getElementById('regex-container');
