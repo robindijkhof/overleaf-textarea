@@ -57,7 +57,7 @@ function sanitize(string) {
 // Filter the text. Commandos should be removed so Grammarly can understand the text.
 // The number of lines should not be affected. This will cause the plugin not to work.
 function filter(text) {
-  const regexes = userFilters.concat(
+  let regexes = userFilters.concat(
     [
       {pattern: /w*(?<!\\)%.*(\n?)/g, newValue: '$1'},
       {pattern: '\\\\', newValue: ''},
@@ -111,10 +111,18 @@ function filter(text) {
       {pattern: /(\\acrfull{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\paragraph{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\acf{)(.*?)(})/g, newValue: '$2'},
-      {pattern: /(\$)(.*?)(\$)/g, newValue: '$2'}
+      {pattern: /(\\todo{)(.*?)(})/g, newValue: ''}
+
     ]);
 
+  //Dedupe. Keep the first specified by the user.
+  regexes = uniqByKeepFirst(regexes, x => String(x.pattern));
+
   for (let i = 0; i < regexes.length; i++) {
+    if(regexes[i].newValue === '%%EMPTY%%') {
+      continue;
+    }
+
     const regex = getRegFromString(regexes[i].pattern);
     let newText = '';
     if (typeof regex === 'string') {
@@ -126,7 +134,20 @@ function filter(text) {
     if (newText.split("\n").length === text.split("\n").length) {
       text = newText
     } else {
-      log('Pattern incorrect. Text length reduced by :' + regex + ', ' + regexes[i].newValue)
+      let patternString = regexes[i].pattern;
+      if(typeof patternString !== 'string'){
+        patternString = String(patternString);
+      }
+
+      let newValueString = regexes[i].newValue;
+      if(typeof newValueString !== 'string'){
+        newValueString = String(newValueString);
+      }
+
+      // Note, logs are reversed.
+      log('If you don\'t know what to do, add the following filter: ' + patternString + ' with value: %%EMPTY%%');
+      log('If this is custom filter, remove or update it. If it is not a custom filter, try to fix it by overriding it.');
+      log('Pattern incorrect. Text length reduced by :' + patternString + ', ' + newValueString);
     }
 
   }
@@ -145,6 +166,15 @@ function getRegFromString(string) {
   } catch (e) {
     return string;
   }
+}
+
+// filters a list of objects by a specified key.
+function uniqByKeepFirst(a, key) {
+  let seen = new Set();
+  return a.filter(item => {
+    let k = key(item);
+    return seen.has(k) ? false : seen.add(k);
+  });
 }
 
 // For testing purposes
