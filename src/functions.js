@@ -70,7 +70,7 @@ function filter(text) {
       {pattern: /(\\begin{)(.*?)(})(\[.*?])?/g, newValue: ''},
       {pattern: /(\\bibliography{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\bibliographystyle{)(.*?)(})/g, newValue: ''},
-      {pattern: /(\\caption{)(.*?)(})/g, newValue: ''},
+      {pattern: /(\\caption{)(.*)(})/g, newValue: ''},
       {pattern: '\\centering', newValue: ''},
       {pattern: '\\par', newValue: ''},
       {pattern: /( \\cite{)(.*?)(} )/g, newValue: ' '},
