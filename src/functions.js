@@ -74,6 +74,7 @@ function filter(text) {
       {pattern: /(\\caption{)(.*)(})/g, newValue: '$2'},
       {pattern: '\\centering', newValue: ''},
       {pattern: '\\par', newValue: ''},
+      {pattern: '\\protect', newValue: ''},
       {pattern: /( \\cite{)(.*?)(} )/g, newValue: ' '},
       {pattern: /( \\cite{)(.*?)(}.)/g, newValue: '.'},
       {pattern: /(\\cite{)(.*?)(})/g, newValue: ''},
