@@ -111,6 +111,7 @@ function filter(text) {
       {pattern: /(\\acrfull{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\paragraph{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\acf{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\ac[s|l]{0,1}[p]?{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\todo{)(.*?)(})/g, newValue: ''}
 
     ]);
