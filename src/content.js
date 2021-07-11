@@ -101,7 +101,7 @@ document.addEventListener('return_command', function (e) {
             const scrollTop = spellcheck.scrollTop;
             spellcheck.value = filteredText;
 
-            if(firstTimeFocus){
+            if (firstTimeFocus) {
               spellcheck.focus();
               current.focus();
               firstTimeFocus = false;
@@ -115,6 +115,17 @@ document.addEventListener('return_command', function (e) {
 
 });
 
+let aside = document.querySelector('aside.editor-sidebar');
+aside.addEventListener("click", () => {
+  if (active) {
+    chrome.storage.sync.set({active: false}, function () {
+    });
+    setTimeout(() => {
+      chrome.storage.sync.set({active: true}, function () {
+      });
+    }, 1000);
+  }
+});
 
 // get the textvalue every two seconds
 setInterval(() => {
