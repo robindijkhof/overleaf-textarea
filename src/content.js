@@ -134,6 +134,26 @@ setInterval(() => {
   document.dispatchEvent(new CustomEvent('call_command', {detail: message}));
 }, 2000);
 
+// Sync overleaf scroll
+document.addEventListener('overleaf_scroll', function (e) {
+  const percentage = e.detail;
+  const textarea = getSpellCheckTextElement();
+  if (textarea) {
+    textarea.scrollTop = textarea.scrollHeight * (percentage / 100);
+  }
+});
+
+//Send textarea scroll
+setTimeout(() => {
+  const textarea = getSpellCheckTextElement();
+  if (textarea) {
+    // Sync scroll from overleaf
+    textarea.addEventListener('scroll', function () {
+      const percentage = textarea.scrollTop / textarea.scrollHeight * 100;
+      document.dispatchEvent(new CustomEvent('textarea_scroll', {detail: percentage}));
+    });
+  }
+}, 2000)
 
 // returns a new DOM spellcheck element
 function makeNewPluginElement() {

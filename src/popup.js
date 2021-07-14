@@ -53,11 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.tabs.create({url: 'https://www.paypal.com/donate/?hosted_button_id=6B3GESXVWUPAJ'});
     });
 
-
-
-
-
-
 });
 
 
@@ -96,7 +91,6 @@ function addRegexToPopup(regexString, replaceString, index){
 
 // Delete a specific element. Save the new list and rebuild the popup regexes.
 function deleteRegex(index) {
-    console.log('index: ', index);
     customRegex.splice(index, 1);
     chrome.storage.sync.set({customRegex: customRegex}, function() { });
     const container = document.getElementById('regex-container');
