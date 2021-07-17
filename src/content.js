@@ -2,7 +2,7 @@
 
 // Setup communication with script.js so we can access js objects of the page.
 const s = document.createElement('script');
-s.src = chrome.extension.getURL('src/script.js');
+s.src = chrome.runtime.getURL('src/script.js');
 document.head.appendChild(s);
 s.onload = function () {
   s.remove();
