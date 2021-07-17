@@ -21,6 +21,9 @@ let dmp = new diff_match_patch();
 // whether the plugin is active
 let active = false;
 
+// whether scroll between overleaf and textarea should be synced
+let syncScroll = false;
+
 //Fallback method for merging changes back to the editor
 let justDidFallback = false;
 const isFireFox = typeof InstallTrigger !== 'undefined';
@@ -49,7 +52,18 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   }
 });
 
-// checks the first time whether the plugin is active
+// checks the first time
+chrome.storage.sync.get(['syncScroll'], function (result) {
+  syncScroll = result.syncScroll === undefined ? true : result.syncScroll;
+});
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+  if (changes['syncScroll']) {
+    syncScroll = changes['syncScroll'].newValue;
+  }
+});
+
+
+// checks the first time
 chrome.storage.sync.get(['customRegex'], function (result) {
   userFilters = result.customRegex || [];
 });
@@ -138,7 +152,7 @@ setInterval(() => {
 document.addEventListener('overleaf_scroll', function (e) {
   const percentage = e.detail;
   const textarea = getSpellCheckTextElement();
-  if (textarea) {
+  if (textarea && syncScroll) {
     textarea.scrollTop = textarea.scrollHeight * (percentage / 100);
   }
 });
@@ -149,8 +163,10 @@ setTimeout(() => {
   if (textarea) {
     // Sync scroll from overleaf
     textarea.addEventListener('scroll', function () {
-      const percentage = textarea.scrollTop / textarea.scrollHeight * 100;
-      document.dispatchEvent(new CustomEvent('textarea_scroll', {detail: percentage}));
+      if(syncScroll){
+        const percentage = textarea.scrollTop / textarea.scrollHeight * 100;
+        document.dispatchEvent(new CustomEvent('textarea_scroll', {detail: percentage}));
+      }
     });
   }
 }, 2000)
