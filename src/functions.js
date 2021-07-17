@@ -66,12 +66,15 @@ function filter(text) {
       {pattern: '\\&', newValue: '&'},
       {pattern: '\\#', newValue: '#'},
       {pattern: '\\_', newValue: '_'},
+      {pattern: '\\texteuro', newValue: '€'},
       {pattern: /(\\author{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\begin{)(.*?)(})(\[.*?])?/g, newValue: ''},
       {pattern: /(\\bibliography{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\bibliographystyle{)(.*?)(})/g, newValue: ''},
-      {pattern: /(\\caption{)(.*?)(})/g, newValue: ''},
+      {pattern: /(\\caption{)(.*)(})/g, newValue: '$2'},
       {pattern: '\\centering', newValue: ''},
+      {pattern: '\\par', newValue: ''},
+      {pattern: '\\protect', newValue: ''},
       {pattern: /( \\cite{)(.*?)(} )/g, newValue: ' '},
       {pattern: /( \\cite{)(.*?)(}.)/g, newValue: '.'},
       {pattern: /(\\cite{)(.*?)(})/g, newValue: ''},
@@ -99,6 +102,7 @@ function filter(text) {
       {pattern: /(\\pagestyle{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\ref{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\autoref{)(.*?)(})/g, newValue: ''},
+      {pattern: /(\\chapter{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\section{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\subsection{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\subsubsection{)(.*?)(})/g, newValue: '$2'},
@@ -110,7 +114,7 @@ function filter(text) {
       {pattern: /(\\acrshort{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\acrfull{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\paragraph{)(.*?)(})/g, newValue: '$2'},
-      {pattern: /(\\acf{)(.*?)(})/g, newValue: '$2'},
+      {pattern: /(\\ac[s|l|f]{0,1}[p]?{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\todo{)(.*?)(})/g, newValue: ''}
 
     ]);
