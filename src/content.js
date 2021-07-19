@@ -185,9 +185,8 @@ function makeNewPluginElement() {
   const textarea = document.createElement('textarea');
   textarea.id = 'spellcheck-text';
   textarea.style.width = '100%';
-  textarea.style.height = '100%';
+  textarea.style.height = 'calc(100% - 30px)';
   textarea.style.resize = 'none';
-  textarea.style['margin-bottom'] = '30px';
   element.append(textarea);
 
   const userConsole = document.createElement('div');
