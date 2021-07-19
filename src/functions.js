@@ -61,6 +61,7 @@ function filter(text) {
     [
       {pattern: /w*(?<!\\)%.*(\n?)/g, newValue: '$1'},
       {pattern: '\\\\', newValue: ''},
+      {pattern: '  ', newValue: ' '},
       {pattern: '\\%', newValue: '%'},
       {pattern: '\\$', newValue: '$'},
       {pattern: '\\&', newValue: '&'},
@@ -72,17 +73,21 @@ function filter(text) {
       {pattern: /(\\bibliographystyle{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\caption{)(.*?)(})/g, newValue: ''},
       {pattern: '\\centering', newValue: ''},
+      {pattern: /( \\cite{)(.*?)(}\.)/g, newValue: '.'},
+      {pattern: /( \\cite{)(.*?)(},)/g, newValue: ','},
       {pattern: /( \\cite{)(.*?)(} )/g, newValue: ' '},
-      {pattern: /( \\cite{)(.*?)(}.)/g, newValue: '.'},
       {pattern: /(\\cite{)(.*?)(})/g, newValue: ''},
+      {pattern: /( \\citep{)(.*?)(}\.)/g, newValue: '.'},
+      {pattern: /( \\citep{)(.*?)(},)/g, newValue: ','},
       {pattern: /( \\citep{)(.*?)(} )/g, newValue: ' '},
-      {pattern: /( \\citep{)(.*?)(}.)/g, newValue: '.'},
       {pattern: /(\\citep{)(.*?)(})/g, newValue: ''},
+      {pattern: /( \\citeal\[]{)(.*?)(}\.)/g, newValue: '.'},
+      {pattern: /( \\citeal\[]{)(.*?)(},)/g, newValue: ','},
       {pattern: /( \\citeal\[]{)(.*?)(} )/g, newValue: ' '},
-      {pattern: /( \\citeal\[]{)(.*?)(}.)/g, newValue: '.'},
       {pattern: /(\\citeal\[]{)(.*?)(})/g, newValue: ''},
+      {pattern: /( \\citealp\[]{)(.*?)(}\.)/g, newValue: '.'},
+      {pattern: /( \\citealp\[]{)(.*?)(},)/g, newValue: ','},
       {pattern: /( \\citealp\[]{)(.*?)(} )/g, newValue: ' '},
-      {pattern: /( \\citealp\[]{)(.*?)(}.)/g, newValue: '.'},
       {pattern: /(\\citealp\[]{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\citestyle{)(.*?)(})/g, newValue: ''},
       {pattern: /(\\date{)(.*?)(})/g, newValue: '$2'},
@@ -112,7 +117,6 @@ function filter(text) {
       {pattern: /(\\paragraph{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\acf{)(.*?)(})/g, newValue: '$2'},
       {pattern: /(\\todo{)(.*?)(})/g, newValue: ''}
-
     ]);
 
   //Dedupe. Keep the first specified by the user.
