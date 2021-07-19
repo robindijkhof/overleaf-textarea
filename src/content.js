@@ -187,6 +187,7 @@ function makeNewPluginElement() {
   textarea.style.width = '100%';
   textarea.style.height = '100%';
   textarea.style.resize = 'none';
+  textarea.style['margin-bottom'] = '30px';
   element.append(textarea);
 
   const userConsole = document.createElement('div');
