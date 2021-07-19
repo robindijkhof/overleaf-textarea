@@ -1,3 +1,6 @@
+// Bijhouden van laatst geopende document
+let lastDoc;
+
 document.addEventListener('call_command', function (e) {
   const message = JSON.parse(e.detail);
 
@@ -33,19 +36,24 @@ document.addEventListener('call_command', function (e) {
   }
 });
 
-// Send overleaf scroll
-setTimeout(() => {
-  if(_ide){
+// Send overleaf scroll. Selection a new file will remove the lsitener. To work arround that problem, check every 2 seconds if the fill is still open.
+setInterval(() => {
+  if(_ide && lastDoc !== _ide.editorManager.$scope.editor.sharejs_doc.doc_id){
+    lastDoc = _ide.editorManager.$scope.editor.sharejs_doc.doc_id;
+
     _ide.editorManager.$scope.editor.sharejs_doc.ace.session.on("changeScrollTop", function (scrollTop) {
       let maxHeihgt = _ide.editorManager.$scope.editor.sharejs_doc.ace.renderer.layerConfig.maxHeight;
       let calc = _ide.editorManager.$scope.editor.sharejs_doc.ace.session.getScreenLength() * _ide.editorManager.$scope.editor.sharejs_doc.ace.renderer.lineHeight
       let percentage = scrollTop / maxHeihgt * 100;
       let percentage2 = scrollTop / calc * 100;
 
+
       document.dispatchEvent(new CustomEvent('overleaf_scroll', {detail: percentage2}));
     });
   }
 }, 2000)
+
+
 
 // Sync textarea scroll
 document.addEventListener('textarea_scroll', function (e) {
@@ -56,9 +64,6 @@ document.addEventListener('textarea_scroll', function (e) {
   const scrollTop = calc * percentage / 100;
   _ide.editorManager.$scope.editor.sharejs_doc.ace.session.setScrollTop(scrollTop);
 });
-
-
-
 
 
 

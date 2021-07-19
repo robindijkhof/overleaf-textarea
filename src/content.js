@@ -37,6 +37,7 @@ chrome.storage.sync.get(['active'], function (result) {
   active = result.active === undefined ? true : result.active;
   if (active) {
     createPluginElement();
+    setTextareaScrollListener();
   }
 });
 
@@ -46,6 +47,7 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
     active = changes['active'].newValue;
     if (active) {
       createPluginElement();
+      setTextareaScrollListener();
     } else {
       removeSpellCheckElement();
     }
@@ -148,6 +150,7 @@ setInterval(() => {
   document.dispatchEvent(new CustomEvent('call_command', {detail: message}));
 }, 2000);
 
+
 // Sync overleaf scroll
 document.addEventListener('overleaf_scroll', function (e) {
   const percentage = e.detail;
@@ -157,8 +160,8 @@ document.addEventListener('overleaf_scroll', function (e) {
   }
 });
 
-//Send textarea scroll
-setTimeout(() => {
+//Send textarea scroll event
+function setTextareaScrollListener(){
   const textarea = getSpellCheckTextElement();
   if (textarea) {
     // Sync scroll from overleaf
@@ -169,7 +172,7 @@ setTimeout(() => {
       }
     });
   }
-}, 2000)
+}
 
 // returns a new DOM spellcheck element
 function makeNewPluginElement() {
