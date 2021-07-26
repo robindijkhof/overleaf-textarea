@@ -43,6 +43,14 @@ describe('filter', function () {
     expect(functions.filter('Multi-PIE dataset \\cite{multipie}, which')).toBe('Multi-PIE dataset, which');
   });
 
+  it('should corectly handle ac[s|l|f]', function () {
+    expect(functions.filter('\\acrfull{abc}')).toBe('abc');
+    expect(functions.filter('\\ac{abc}')).toBe('abc');
+    expect(functions.filter('\\acs{abc}')).toBe('abc');
+    expect(functions.filter('\\acl{abc}')).toBe('abc');
+    expect(functions.filter('\\acf{abc}')).toBe('abc');
+  });
+
   it('should  corectly handle the example1 text', function () {
     const tex = fs.readFileSync(path.resolve(__dirname, "./example1.tex"), "utf8");
     const result = fs.readFileSync(path.resolve(__dirname, "./result1.txt"), "utf8");
