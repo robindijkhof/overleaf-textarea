@@ -1,0 +1,66 @@
+{
+  "manifest_version": 2,
+  "name": "Overleaf textarea",
+  "version": "1.5.1",
+  "description": "This plugin displays your text in a textarea so you can use spellcheck plugins like Grammarly.",
+
+  "icons": {
+    "16": "assets/icons/favicon-16.png",
+    "32": "assets/icons/favicon-32.png",
+    "48": "assets/icons/favicon-48.png",
+    "128": "assets/icons/favicon-128.png"
+  },
+  "homepage_url": "https://github.com/abhijithvijayan/web-extension-starter",
+  "permissions": [
+    "https://overleaf.com/",
+    "https://www.overleaf.com/",
+    "*://*.overleaf.com/*",
+    "storage",
+    "contextMenus",
+    "activeTab"
+  ],
+  "optional_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_security_policy": "script-src 'self'; object-src 'self'",
+  "web_accessible_resources": ["js/page-script.bundle.js"],
+
+  "__chrome|firefox__author": "Robin Dijkhof",
+
+
+  "__firefox__applications": {
+    "gecko": {
+      "id": "{2694ed88-83dd-c445-bd97-cb860fc66b7e}",
+      "strict_min_version": "77.0"
+    }
+  },
+
+  "__chrome__minimum_chrome_version": "49",
+
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/icons/favicon-16.png",
+      "32": "assets/icons/favicon-32.png",
+      "48": "assets/icons/favicon-48.png",
+      "128": "assets/icons/favicon-128.png"
+    }
+  },
+  "background": {
+    "scripts": [
+      "js/background.bundle.js"
+    ],
+    "__chrome|opera__persistent": false
+  },
+
+  "content_scripts": [{
+    "matches": [
+      "*://*.overleaf.com/*"
+    ],
+    "js": [
+      "js/contentScript.bundle.js"
+    ],
+    "run_at": "document_end"
+  }]
+}

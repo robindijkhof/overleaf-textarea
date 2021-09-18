@@ -1,16 +1,18 @@
 // Bijhouden van laatst geopende document
-let lastDoc;
 
-document.addEventListener('call_command', function (e) {
-  const message = JSON.parse(e.detail);
+let lastDoc: string;
+
+document.addEventListener('call_command',  event => {
+  // @ts-ignore
+  const message = JSON.parse(event.detail);
 
   let result;
 
   try {
     //Handle specific methods.
     if (message.method === 'replaceLine') {
-      var row = message.args.lineNumber;
-      var newText = message.args.newValue;
+      const row = message.args.lineNumber;
+      const newText = message.args.newValue;
 
       _ide.editorManager.$scope.editor.sharejs_doc.ace.session.replace(new ace.Range(row, 0, row, Number.MAX_VALUE), newText)
     }
@@ -21,6 +23,7 @@ document.addEventListener('call_command', function (e) {
           detail:
             JSON.stringify({
               method: message.method,
+              // @ts-ignore
               value: _ide.editorManager.$scope.editor.sharejs_doc.ace.session[message.method]
                 .apply(_ide.editorManager.$scope.editor.sharejs_doc.ace.session, [message.args])
             })
@@ -36,15 +39,13 @@ document.addEventListener('call_command', function (e) {
   }
 });
 
-// Send overleaf scroll. Selection a new file will remove the lsitener. To work arround that problem, check every 2 seconds if the fill is still open.
+// Send overleaf scroll. Selecting a new file will remove the listener. To work arround that problem, check every 2 seconds if the file is still open.
 setInterval(() => {
   if(_ide && lastDoc !== _ide.editorManager.$scope.editor.sharejs_doc.doc_id){
     lastDoc = _ide.editorManager.$scope.editor.sharejs_doc.doc_id;
 
-    _ide.editorManager.$scope.editor.sharejs_doc.ace.session.on("changeScrollTop", function (scrollTop) {
-      let maxHeihgt = _ide.editorManager.$scope.editor.sharejs_doc.ace.renderer.layerConfig.maxHeight;
+    _ide.editorManager.$scope.editor.sharejs_doc.ace.session.on("changeScrollTop",  scrollTop => {
       let calc = _ide.editorManager.$scope.editor.sharejs_doc.ace.session.getScreenLength() * _ide.editorManager.$scope.editor.sharejs_doc.ace.renderer.lineHeight
-      let percentage = scrollTop / maxHeihgt * 100;
       let percentage2 = scrollTop / calc * 100;
 
 
@@ -56,14 +57,15 @@ setInterval(() => {
 
 
 // Sync textarea scroll
-document.addEventListener('textarea_scroll', function (e) {
-  const percentage = e.detail;
-  const maxHeihgt = _ide.editorManager.$scope.editor.sharejs_doc.ace.renderer.layerConfig.maxHeight;
+document.addEventListener('textarea_scroll',  event => {
+  // @ts-ignore
+  const percentage = event.detail;
   const calc = _ide.editorManager.$scope.editor.sharejs_doc.ace.session.getScreenLength() * _ide.editorManager.$scope.editor.sharejs_doc.ace.renderer.lineHeight
 
+
   const scrollTop = calc * percentage / 100;
+
   _ide.editorManager.$scope.editor.sharejs_doc.ace.session.setScrollTop(scrollTop);
 });
 
-
-
+export {}
