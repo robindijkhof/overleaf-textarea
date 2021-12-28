@@ -1,7 +1,7 @@
 {
-  "name": "web-extension-starter",
+  "name": "overelaf-textarea",
   "version": "2.0.2",
-  "description": "Web extension starter using react and typescript",
+  "description": "Extract text from overleaf and put it into a textarea",
   "private": false,
   "license": "gplv3",
   "engines": {
