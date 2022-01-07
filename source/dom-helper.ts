@@ -31,10 +31,10 @@ export function createPluginElement(): void {
 }
 
 // Adds a plugin button element to the DOM
-export function createPluginButtonElement(onClick: () => void): void {
+export function createPluginButtonElement(icon: string, onClick: () => void): void {
   const toolbar = document.querySelector("div.toolbar-pdf-left");
   if (getPluginButtonElement() === null) {
-    toolbar?.append(makeNewPluginButtonElement(onClick));
+    toolbar?.append(makeNewPluginButtonElement(icon, onClick));
   }
 }
 
@@ -77,22 +77,18 @@ function makeNewPluginElement() {
   return element;
 }
 
-// creates and returns the plugin button DOM element
-function makeNewPluginButtonElement(onClick: () => void) {
-  const element = document.createElement('button');
+// creates and returns the plugin DOM element TODO
+function makeNewPluginButtonElement(icon: string, onClick: () => void) {
+  const element = document.createElement('input');
   element.id = 'spellcheck-btn';
   element.onclick = onClick;
+  element.setAttribute('type', 'image');
+  element.setAttribute('src', icon);
+  element.setAttribute('width', '18');
+  element.setAttribute('height', '18');
   element.setAttribute('aria-label', 'Overleaf textarea: switch view');
   element.classList.add('toolbar-item');
   element.classList.add('btn');
-  element.style.position = 'relative';
-
-  const i = document.createElement('i');
-  i.setAttribute('aria-hidden', 'true');
-  i.classList.add('fa');
-  i.classList.add('fa-exchange');
-  i.classList.add('fa-fw');
-  element.append(i);
 
   return element;
 }

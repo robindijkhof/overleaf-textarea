@@ -12,6 +12,9 @@ let activeOnPage = true;
 // whether scroll between overleaf and textarea should be synced
 let syncScroll = false;
 
+// get the plugin icon as the button image
+let buttonIcon = browser.runtime.getURL('assets/icons/icon_18.png');
+
 // Setup communication with script.js so we can access js objects of the page.
 const s = document.createElement('script');
 s.src = browser.runtime.getURL('js/page-script.bundle.js');
@@ -25,7 +28,7 @@ function onAnyStateChanged(globalActive: boolean, pageActive: boolean) {
   let active = globalActive && pageActive;
   if (active) {
     createPluginElement();
-    createPluginButtonElement(onPluginButtonClick);
+    createPluginButtonElement(buttonIcon, onPluginButtonClick);
     getSpellCheckTextElement()?.addEventListener('input', () => {
       controller.textAreaInputChangeEvent()
     });
@@ -49,7 +52,7 @@ browser.storage.sync.get(['active']).then(result => {
   let active = (result.active === undefined ? true : result.active) && activeOnPage;
   if (active) {
     createPluginElement();
-    createPluginButtonElement(onPluginButtonClick);
+    createPluginButtonElement(buttonIcon, onPluginButtonClick);
     getSpellCheckTextElement()?.addEventListener('input', () => {
       controller.textAreaInputChangeEvent()
     });
