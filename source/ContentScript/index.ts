@@ -1,4 +1,4 @@
-import {createPluginElement, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
+import {createPluginElement, createPluginButtonElement, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
 import {SpellcheckController} from "./spellcheck-controller";
 import {Filter} from "../Popup/filter";
 import {browser} from 'webextension-polyfill-ts';
@@ -7,8 +7,8 @@ import {browser} from 'webextension-polyfill-ts';
 const controller = SpellcheckController.getInstance();
 
 let userFilters: Filter[] = [];
-// whether the plugin is active
-let active = false;
+// whether the plugin is active on the current page
+let activeOnPage = true;
 // whether scroll between overleaf and textarea should be synced
 let syncScroll = false;
 
@@ -20,11 +20,36 @@ s.onload = () => {
   s.remove();
 };
 
-// checks the first time whether the plugin is active
-browser.storage.sync.get(['active']).then(result => {
-  active = result.active === undefined ? true : result.active;
+// handles state changes for both active flags
+function onAnyStateChanged(globalActive: boolean, pageActive: boolean) {
+  let active = globalActive && pageActive;
   if (active) {
     createPluginElement();
+    createPluginButtonElement(onPluginButtonClick);
+    getSpellCheckTextElement()?.addEventListener('input', () => {
+      controller.textAreaInputChangeEvent()
+    });
+    setTextareaScrollListener();
+    getSpellCheckTextElement()?.focus();
+  } else {
+    removePluginElement();
+  }
+}
+
+// click event for the plugin button
+function onPluginButtonClick() {
+  browser.storage.sync.get(['active']).then(result => {
+    activeOnPage = !activeOnPage;
+    onAnyStateChanged(result.active, activeOnPage);
+  });
+}
+
+// checks the first time whether the plugin is active
+browser.storage.sync.get(['active']).then(result => {
+  let active = (result.active === undefined ? true : result.active) && activeOnPage;
+  if (active) {
+    createPluginElement();
+    createPluginButtonElement(onPluginButtonClick);
     getSpellCheckTextElement()?.addEventListener('input', () => {
       controller.textAreaInputChangeEvent()
     });
@@ -47,17 +72,7 @@ browser.storage.sync.get(['active']).then(result => {
 // event listener for when the app becomes (in)active
 browser.storage.onChanged.addListener(changes => {
   if (changes['active']) {
-    active = changes['active'].newValue;
-    if (active) {
-      createPluginElement();
-      getSpellCheckTextElement()?.addEventListener('input', () => {
-        controller.textAreaInputChangeEvent()
-      });
-      setTextareaScrollListener();
-      getSpellCheckTextElement()?.focus();
-    } else {
-      removePluginElement();
-    }
+    onAnyStateChanged(changes['active'].newValue, activeOnPage);
   }
 });
 
@@ -87,12 +102,14 @@ browser.storage.onChanged.addListener(changes => {
 
 let aside = document.querySelector('aside.editor-sidebar');
 aside?.addEventListener("click", () => {
-  if (active) {
-    browser.storage.sync.set({active: false});
-    setTimeout(() => {
-      browser.storage.sync.set({active: true});
-    }, 1000);
-  }
+  browser.storage.sync.get(['active']).then(result => {
+    if (activeOnPage) {
+      onAnyStateChanged(result.active, false);
+      setTimeout(() => {
+        onAnyStateChanged(result.active, true);
+      }, 1000);
+    }
+  });
 });
 
 // Sync overleaf scroll to textarea

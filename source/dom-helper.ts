@@ -11,6 +11,11 @@ export function getPluginElement() {
   return document.getElementById('spellcheck');
 }
 
+// returns the plugin button DOM element
+export function getPluginButtonElement() {
+  return document.getElementById('spellcheck-btn');
+}
+
 // returns the plugin textarea element
 export function getSpellCheckTextElement(): HTMLTextAreaElement | null {
   return document.getElementById('spellcheck-text') as HTMLTextAreaElement;
@@ -22,6 +27,14 @@ export function createPluginElement(): void {
   const pdfdoc = document.querySelector("div.full-size.pdf");
   if (getPluginElement() === null) {
     pdfdoc?.append(makeNewPluginElement());
+  }
+}
+
+// Adds a plugin button element to the DOM
+export function createPluginButtonElement(onClick: () => void): void {
+  const toolbar = document.querySelector("div.toolbar-pdf-left");
+  if (getPluginButtonElement() === null) {
+    toolbar?.append(makeNewPluginButtonElement(onClick));
   }
 }
 
@@ -60,6 +73,26 @@ function makeNewPluginElement() {
   userConsole.style.fontSize = '12px';
   userConsole.style.display = 'none';
   element.append(userConsole);
+
+  return element;
+}
+
+// creates and returns the plugin button DOM element
+function makeNewPluginButtonElement(onClick: () => void) {
+  const element = document.createElement('button');
+  element.id = 'spellcheck-btn';
+  element.onclick = onClick;
+  element.setAttribute('aria-label', 'Overleaf textarea: switch view');
+  element.classList.add('toolbar-item');
+  element.classList.add('btn');
+  element.style.position = 'relative';
+
+  const i = document.createElement('i');
+  i.setAttribute('aria-hidden', 'true');
+  i.classList.add('fa');
+  i.classList.add('fa-exchange');
+  i.classList.add('fa-fw');
+  element.append(i);
 
   return element;
 }
