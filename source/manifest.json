@@ -26,7 +26,8 @@
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "web_accessible_resources": [
     "js/page-script.bundle.js",
-    "assets/icons/icon_18.png"
+    "assets/icons/icon_18.png",
+    "assets/icons/icon_18_white.png"
   ],
 
   "__chrome|firefox__author": "Robin Dijkhof",

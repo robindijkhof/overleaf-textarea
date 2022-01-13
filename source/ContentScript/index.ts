@@ -1,4 +1,4 @@
-import {createPluginElement, createPluginButtonElement, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
+import {createPluginElement, createPluginButtonElement, getPluginButtonElement, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
 import {SpellcheckController} from "./spellcheck-controller";
 import {Filter} from "../Popup/filter";
 import {browser} from 'webextension-polyfill-ts';
@@ -12,8 +12,9 @@ let activeOnPage = true;
 // whether scroll between overleaf and textarea should be synced
 let syncScroll = false;
 
-// get the plugin icon as the button image
-let buttonIcon = browser.runtime.getURL('assets/icons/icon_18.png');
+// get the plugin icon as the button image using the overleaf theme as a guide
+let theme = document.querySelector('select[name=overallTheme]') as HTMLSelectElement;
+let buttonIcon = getButtonIconAssetURL(theme.value);
 
 // Setup communication with script.js so we can access js objects of the page.
 const s = document.createElement('script');
@@ -22,6 +23,17 @@ document.head.appendChild(s);
 s.onload = () => {
   s.remove();
 };
+
+// Select the proper button icon for the overleaf theme
+function getButtonIconAssetURL(themeValue: string) {
+  let asset = 'assets/icons/icon_18_white.png';
+
+  if (themeValue == 'string:light-') {
+    asset = 'assets/icons/icon_18.png';
+  }
+
+  return browser.runtime.getURL(asset);
+}
 
 // handles state changes for both active flags
 function onAnyStateChanged(globalActive: boolean, pageActive: boolean) {
@@ -113,6 +125,14 @@ aside?.addEventListener("click", () => {
       }, 1000);
     }
   });
+});
+
+// update the button icon with the theme
+theme.addEventListener("change", e => {
+  let select = e.target as HTMLSelectElement;
+  let buttonIcon = getButtonIconAssetURL(select.value);
+  let button = getPluginButtonElement();
+  button?.setAttribute('src', buttonIcon);
 });
 
 // Sync overleaf scroll to textarea
