@@ -1,4 +1,4 @@
-import {createPluginElement, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
+import {createPluginElement, createPluginButtonElement, getPluginButtonElement, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
 import {SpellcheckController} from "./spellcheck-controller";
 import {Filter} from "../Popup/filter";
 import {browser} from 'webextension-polyfill-ts';
@@ -7,10 +7,12 @@ import {browser} from 'webextension-polyfill-ts';
 const controller = SpellcheckController.getInstance();
 
 let userFilters: Filter[] = [];
-// whether the plugin is active
-let active = false;
 // whether scroll between overleaf and textarea should be synced
 let syncScroll = false;
+
+// get the plugin icon as the button image using the overleaf theme as a guide
+let theme = document.querySelector('select[name=overallTheme]') as HTMLSelectElement;
+let buttonIcon = getButtonIconAssetURL(theme.value);
 
 // Setup communication with script.js so we can access js objects of the page.
 const s = document.createElement('script');
@@ -20,11 +22,46 @@ s.onload = () => {
   s.remove();
 };
 
-// checks the first time whether the plugin is active
-browser.storage.sync.get(['active']).then(result => {
-  active = result.active === undefined ? true : result.active;
+// Select the proper button icon for the overleaf theme
+function getButtonIconAssetURL(themeValue: string) {
+  let asset = 'assets/icons/icon_18_white.png';
+
+  if (themeValue == 'string:light-') {
+    asset = 'assets/icons/icon_18.png';
+  }
+
+  return browser.runtime.getURL(asset);
+}
+
+// handles the state change of the active flag
+function onActiveStateChanged(active: boolean) {
   if (active) {
     createPluginElement();
+    createPluginButtonElement(buttonIcon, onPluginButtonClick);
+    getSpellCheckTextElement()?.addEventListener('input', () => {
+      controller.textAreaInputChangeEvent()
+    });
+    setTextareaScrollListener();
+    getSpellCheckTextElement()?.focus();
+  } else {
+    removePluginElement();
+  }
+}
+
+// click event for the plugin button
+function onPluginButtonClick() {
+  browser.storage.sync.get(['active']).then(result => {
+    let active = !result.active;
+    browser.storage.sync.set({'active': active})
+  });
+}
+
+// checks the first time whether the plugin is active
+browser.storage.sync.get(['active']).then(result => {
+  let active = result.active === undefined ? true : result.active;
+  if (active) {
+    createPluginElement();
+    createPluginButtonElement(buttonIcon, onPluginButtonClick);
     getSpellCheckTextElement()?.addEventListener('input', () => {
       controller.textAreaInputChangeEvent()
     });
@@ -47,17 +84,7 @@ browser.storage.sync.get(['active']).then(result => {
 // event listener for when the app becomes (in)active
 browser.storage.onChanged.addListener(changes => {
   if (changes['active']) {
-    active = changes['active'].newValue;
-    if (active) {
-      createPluginElement();
-      getSpellCheckTextElement()?.addEventListener('input', () => {
-        controller.textAreaInputChangeEvent()
-      });
-      setTextareaScrollListener();
-      getSpellCheckTextElement()?.focus();
-    } else {
-      removePluginElement();
-    }
+    onActiveStateChanged(changes['active'].newValue);
   }
 });
 
@@ -87,12 +114,22 @@ browser.storage.onChanged.addListener(changes => {
 
 let aside = document.querySelector('aside.editor-sidebar');
 aside?.addEventListener("click", () => {
-  if (active) {
-    browser.storage.sync.set({active: false});
-    setTimeout(() => {
-      browser.storage.sync.set({active: true});
-    }, 1000);
-  }
+  browser.storage.sync.get(['active']).then(result => {
+    if (result.active) {
+      onActiveStateChanged(result.active);
+      setTimeout(() => {
+        onActiveStateChanged(result.active);
+      }, 1000);
+    }
+  });
+});
+
+// update the button icon with the theme
+theme.addEventListener("change", e => {
+  let select = e.target as HTMLSelectElement;
+  let buttonIcon = getButtonIconAssetURL(select.value);
+  let button = getPluginButtonElement();
+  button?.setAttribute('src', buttonIcon);
 });
 
 // Sync overleaf scroll to textarea
