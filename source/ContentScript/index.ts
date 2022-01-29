@@ -7,8 +7,6 @@ import {browser} from 'webextension-polyfill-ts';
 const controller = SpellcheckController.getInstance();
 
 let userFilters: Filter[] = [];
-// whether the plugin is active on the current page
-let activeOnPage = true;
 // whether scroll between overleaf and textarea should be synced
 let syncScroll = false;
 
@@ -35,9 +33,8 @@ function getButtonIconAssetURL(themeValue: string) {
   return browser.runtime.getURL(asset);
 }
 
-// handles state changes for both active flags
-function onAnyStateChanged(globalActive: boolean, pageActive: boolean) {
-  let active = globalActive && pageActive;
+// handles the state change of the active flag
+function onActiveStateChanged(active: boolean) {
   if (active) {
     createPluginElement();
     createPluginButtonElement(buttonIcon, onPluginButtonClick);
@@ -54,14 +51,14 @@ function onAnyStateChanged(globalActive: boolean, pageActive: boolean) {
 // click event for the plugin button
 function onPluginButtonClick() {
   browser.storage.sync.get(['active']).then(result => {
-    activeOnPage = !activeOnPage;
-    onAnyStateChanged(result.active, activeOnPage);
+    let active = !result.active;
+    browser.storage.sync.set({'active': active})
   });
 }
 
 // checks the first time whether the plugin is active
 browser.storage.sync.get(['active']).then(result => {
-  let active = (result.active === undefined ? true : result.active) && activeOnPage;
+  let active = result.active === undefined ? true : result.active;
   if (active) {
     createPluginElement();
     createPluginButtonElement(buttonIcon, onPluginButtonClick);
@@ -87,7 +84,7 @@ browser.storage.sync.get(['active']).then(result => {
 // event listener for when the app becomes (in)active
 browser.storage.onChanged.addListener(changes => {
   if (changes['active']) {
-    onAnyStateChanged(changes['active'].newValue, activeOnPage);
+    onActiveStateChanged(changes['active'].newValue);
   }
 });
 
@@ -118,10 +115,10 @@ browser.storage.onChanged.addListener(changes => {
 let aside = document.querySelector('aside.editor-sidebar');
 aside?.addEventListener("click", () => {
   browser.storage.sync.get(['active']).then(result => {
-    if (activeOnPage) {
-      onAnyStateChanged(result.active, false);
+    if (result.active) {
+      onActiveStateChanged(result.active);
       setTimeout(() => {
-        onAnyStateChanged(result.active, true);
+        onActiveStateChanged(result.active);
       }, 1000);
     }
   });
