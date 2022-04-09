@@ -19,7 +19,6 @@ const defaultFilters: Filter[] = [
   {pattern: /(\\bibliographystyle{)(.*?)(})/g, newValue: ''},
   {pattern: /(\\caption{)(.*?)(})/g, newValue: '$2'},
   {pattern: '\\centering', newValue: ''},
-  {pattern: /( \\cite(p|al\[]|alp\[])?{)(.*?)}([ .,])/g, newValue: '$4'},
   {pattern: /\\cite(p|al\[]|alp\[])?{(.*?)}/g, newValue: ''},
   {pattern: /(\\citestyle{)(.*?)(})/g, newValue: ''},
   {pattern: /(\\date{)(.*?)(})/g, newValue: '$2'},
