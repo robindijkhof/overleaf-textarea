@@ -71,6 +71,5 @@ export function fixWeirdGrammarlyErrorPosition(){
   const element = document.getElementsByTagName('grammarly-mirror')[0]?.shadowRoot?.querySelector('div');
   if(element){
     element.style.overflow='auto';
-    console.log('element is here');
   }
 }
