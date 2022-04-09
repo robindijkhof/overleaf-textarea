@@ -70,4 +70,5 @@ Default filters can also be disabled. This can be achieved by providing the valu
 # Building
 Requires nodejs 12 or higher.
 Run `npm install`
-Next, run the build script in `package.json`
+Next, run the build or dev script in `package.json`
+Load the extension https://developer.chrome.com/docs/extensions/mv3/getstarted/
