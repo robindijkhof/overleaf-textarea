@@ -1,4 +1,4 @@
-import {createPluginElement, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
+import {createPluginElement, fixWeirdGrammarlyErrorPosition, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
 import {SpellcheckController} from "./spellcheck-controller";
 import {Filter} from "../Popup/filter";
 import {browser} from 'webextension-polyfill-ts';
@@ -117,6 +117,11 @@ document.addEventListener('return_command', function (e) {
   const message = JSON.parse(e.detail);
   controller.handleOverleafReturnCommand(message, userFilters);
 });
+
+// fix? grammarly
+setInterval(() => {
+  fixWeirdGrammarlyErrorPosition();
+}, 5000);
 
 //Send textarea scroll event
 function setTextareaScrollListener() {

@@ -1,6 +1,6 @@
 {
   "name": "overelaf-textarea",
-  "version": "2.0.2",
+  "version": "2.0.5",
   "description": "Extract text from overleaf and put it into a textarea",
   "private": false,
   "license": "gplv3",

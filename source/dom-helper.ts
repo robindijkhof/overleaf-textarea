@@ -40,6 +40,8 @@ function makeNewPluginElement() {
   element.style.display = 'flex';
   element.style.flexFlow = 'column';
   element.style.backgroundColor = 'Red';
+  element.style.zIndex = '10';
+
 
   const textarea = document.createElement('textarea');
   textarea.id = 'spellcheck-text';
@@ -62,4 +64,13 @@ function makeNewPluginElement() {
   element.append(userConsole);
 
   return element;
+}
+
+export function fixWeirdGrammarlyErrorPosition(){
+  // @ts-ignore
+  const element = document.getElementsByTagName('grammarly-mirror')[0]?.shadowRoot?.querySelector('div');
+  if(element){
+    element.style.overflow='auto';
+    console.log('element is here');
+  }
 }

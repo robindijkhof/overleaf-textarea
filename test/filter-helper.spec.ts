@@ -70,4 +70,11 @@ describe('filter', function () {
     expect(filter(tex, [])).toBe(result);
   });
 
+  it('should  corectly handle the example4 text', function () {
+    const tex = fs.readFileSync(path.resolve(__dirname, "./example4.tex"), "utf8");
+    const result = fs.readFileSync(path.resolve(__dirname, "./result4.txt"), "utf8");
+
+    expect(filter(tex, [])).toBe(result);
+  });
+
 });
