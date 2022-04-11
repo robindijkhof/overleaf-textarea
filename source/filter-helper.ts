@@ -51,7 +51,10 @@ const defaultFilters: Filter[] = [
   {pattern: /(\\acrfull{)(.*?)(})/g, newValue: '$2'},
   {pattern: /(\\paragraph{)(.*?)(})/g, newValue: '$2'},
   {pattern: /(\\ac[slf]{0,1}[p]?{)(.*?)(})/g, newValue: '$2'},
-  {pattern: /(\\todo{)(.*?)(})/g, newValue: ''}
+  {pattern: /(\\todo{)(.*?)(})/g, newValue: ''},
+  {pattern: /(\\url{)(.*?)(})/g. newValue: ''},
+  {pattern: /{\\footnote{)(.*?)(})/g, newValue: '$2'},
+  {pattern: '\\item', newValue: '-'}
 ];
 
 export function filter(text: string, userFilters: Filter[]): string {
