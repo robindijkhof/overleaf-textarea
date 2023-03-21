@@ -17,7 +17,7 @@ If this project saved you time, you can buy me a cup of coffee :)
 # Instructions
 
 - Install the plugin https://chrome.google.com/webstore/detail/overleaf-textarea/iejmieihafhhmjpoblelhbpdgchbckil
-  or https://addons.mozilla.org/addon/overleaf-textarea/
+  or see firefox at the bottom
 - Optionally, pin the plugin ![](instruction1.png) <br/><br/>
 - Optionally, when hosted on a other domain than overleaf.com, allow the plugin to run ![](instruction2.png) <br/><br/>
 - Activate/deactivate the plugin by clicking the plugin en enabling the checkbox. ![](instruction3.png) <br/><br/>
@@ -72,3 +72,9 @@ Requires nodejs 12 or higher.
 Run `npm install`
 Next, run the build or dev script in `package.json`
 Load the extension https://developer.chrome.com/docs/extensions/mv3/getstarted/
+
+# Installing from github.
+The extension is available as zip from github. See https://github.com/robindijkhof/overleaf-textarea/releases
+
+Installing in firefox:
+https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension#installing
