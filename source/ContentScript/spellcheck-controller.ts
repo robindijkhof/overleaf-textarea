@@ -66,7 +66,7 @@ export class SpellcheckController {
           const patches = this.dmp.patch_make(oldLine, newLine);
 
           const fixed = this.dmp.patch_apply(patches, this.lastText.split('\n')[i])[0];
-          const message = JSON.stringify({method: 'replaceLine', args: {lineNumber: i, newValue: fixed}});
+          const message = JSON.stringify({method: 'replaceLine', args: {lineNumber: i + 1, newValue: fixed}});
           document.dispatchEvent(new CustomEvent('call_command',
             {detail: message}
           ));

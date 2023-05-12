@@ -1,4 +1,9 @@
-import {createPluginElement, fixWeirdGrammarlyErrorPosition, getSpellCheckTextElement, removePluginElement} from "../dom-helper";
+import {
+  createPluginElement,
+  fixWeirdGrammarlyErrorPosition,
+  getSpellCheckTextElement,
+  removePluginElement
+} from "../dom-helper";
 import {SpellcheckController} from "./spellcheck-controller";
 import {Filter} from "../Popup/filter";
 import {browser} from 'webextension-polyfill-ts';
@@ -101,7 +106,8 @@ document.addEventListener('overleaf_scroll', e => {
   const percentage = e.detail;
   const textarea = getSpellCheckTextElement();
   if (textarea && syncScroll) {
-    textarea.scrollTop = textarea.scrollHeight * (percentage / 100);
+    const scrollOffset = percentage * (textarea.scrollHeight - textarea.clientHeight);
+    textarea.scrollTop = scrollOffset
   }
 });
 
@@ -130,9 +136,11 @@ function setTextareaScrollListener() {
     // Sync scroll from overleaf
     textarea.addEventListener('scroll', function () {
       if (syncScroll) {
-        const percentage = textarea.scrollTop / textarea.scrollHeight * 100;
+
+        const scrollPercentage = textarea.scrollTop / (textarea.scrollHeight - textarea.clientHeight);
+
         if(textarea.scrollTop != 0){ // Sometimes this value is incorrectly 0. In this case we don't want to send a scoll event.
-          document.dispatchEvent(new CustomEvent('textarea_scroll', {detail: percentage}));
+          document.dispatchEvent(new CustomEvent('textarea_scroll', {detail: scrollPercentage}));
         }
       }
     });

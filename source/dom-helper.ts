@@ -63,6 +63,15 @@ function makeNewPluginElement() {
   userConsole.style.display = 'none';
   element.append(userConsole);
 
+  //Add some padding to match the empty page overleaf creates.
+  setTimeout(() => {
+    const height = window.innerHeight|| document.documentElement.clientHeight||
+      document.body.clientHeight;
+    textarea.style.paddingBottom = height - 50 + 'px';
+  }, 1000);
+
+
+
   return element;
 }
 
@@ -72,4 +81,28 @@ export function fixWeirdGrammarlyErrorPosition(){
   if(element){
     element.style.overflow='auto';
   }
+}
+
+export function getOverleafScrollElement(){
+  //@ts-ignore;
+  return _ide.editorManager.$scope.editor.sharejs_doc?.cm6?.view?.scrollDOM;
+}
+
+export function getOverleafEditorHasFocus(mouseX: number, mouseY: number){
+  const element = document.querySelector('.cm-editor');
+  return elementHasFocus(element, mouseX, mouseY);
+}
+
+export function getTextAreaHasFocus(mouseX: number, mouseY: number){
+  const element = getSpellCheckTextElement();
+  return elementHasFocus(element, mouseX, mouseY);
+}
+
+function elementHasFocus(element: Element | null, mouseX: number, mouseY: number){
+  const box = element?.getBoundingClientRect();
+  if(box){
+    return box.x < mouseX && (box.x + box.width) > mouseX && box.y < mouseY && (box.y + box.height) > mouseY;
+  }
+
+  return false;
 }

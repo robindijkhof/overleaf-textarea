@@ -1,11 +1,11 @@
 {
-  "name": "overelaf-textarea",
-  "version": "2.0.5",
+  "name": "overleaf-textarea",
+  "version": "3.0.0",
   "description": "Extract text from overleaf and put it into a textarea",
   "private": false,
   "license": "gplv3",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "dev:chrome": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch",
@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.14.0",
-    "@types/ace": "0.0.47",
     "diff-match-patch": "^1.0.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -55,7 +54,7 @@
     "html-webpack-plugin": "^4.5.2",
     "jest": "^27.1.0",
     "mini-css-extract-plugin": "^1.6.0",
-    "node-sass": "^4.14.1",
+    "sass": "^1.53.0",
     "optimize-css-assets-webpack-plugin": "^5.0.6",
     "postcss": "^8.3.0",
     "postcss-loader": "^4.3.0",
