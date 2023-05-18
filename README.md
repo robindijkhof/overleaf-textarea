@@ -16,8 +16,7 @@ If this project saved you time, you can buy me a cup of coffee :)
 
 # Instructions
 
-- Install the plugin https://chrome.google.com/webstore/detail/overleaf-textarea/iejmieihafhhmjpoblelhbpdgchbckil
-  or see firefox at the bottom
+- Install the plugin https://chrome.google.com/webstore/detail/overleaf-textarea/iejmieihafhhmjpoblelhbpdgchbckil or https://addons.mozilla.org/firefox/addon/overleaf-textarea/
 - Optionally, pin the plugin ![](instruction1.png) <br/><br/>
 - Optionally, when hosted on a other domain than overleaf.com, allow the plugin to run ![](instruction2.png) <br/><br/>
 - Activate/deactivate the plugin by clicking the plugin en enabling the checkbox. ![](instruction3.png) <br/><br/>
